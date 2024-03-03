@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "node prisma/seed.ts"
+  },
   "dependencies": {
     "@prisma/client": "^5.10.2",
     "@radix-ui/react-slot": "^1.0.2",

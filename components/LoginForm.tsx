@@ -1,93 +1,103 @@
 "use client";
+import { LoginFormValidation } from "@/app/validations/LoginFormValidation";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
-import { useState } from "react";
+import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 
 const LoginForm = () => {
-  const [email, setemail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // try {
-  //   const result = await signIn("credentials", {
-  //     email: values.email,
-  //     password: values.password,
-  //     redirect: false,
-  //     callbackUrl: "/",
-  //   });
-  //   if (result?.error) {
-  //     toast.error("Invalid Credentials");
-  //   }
-  //   if (result?.url) {
-  //     toast.success("login successfull");
-  //   }
-  // } catch (error) {
-  //   console.log("something went wrong");
-  // } finally {
-  //   setIsLoading(false);
-  // }
+  const form = useForm<z.infer<typeof LoginFormValidation>>({
+    resolver: zodResolver(LoginFormValidation),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onFinish = async (values: z.infer<typeof LoginFormValidation>) => {
+    setIsLoading(true);
+    console.log(values);
+    try {
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      console.log(result);
+      if (result?.error) {
+        toast.error("Invalid Credentials");
+      }
+      if (result?.url) {
+        toast.success("login successfull");
+      }
+    } catch (error) {
+      console.log("something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
-            Login to your account by entering your email address and password
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-1">
-            <Label htmlFor="username">Username</Label>
-            <Input
-              id="username"
-              type="text"
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              required
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="email">email address</Label>
-            <Input
-              id="email"
-              type="email"
-              onChange={(e) => setemail(e.target.value)}
-              placeholder="Enter Email"
-              required
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              required
-            />
-          </div>
-        </CardContent>
-        <CardFooter>
-          {loading ? (
-            <Button disabled>Please wait...</Button>
-          ) : (
-            <Button onClick={() => console.log("clicked")}>Login</Button>
-          )}
-        </CardFooter>
-      </Card>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onFinish)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white-600">Email</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    className=" border-none"
+                    type="email"
+                    placeholder="Enter your Email"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className=" text-red-600" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white-600">Password</FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    className=" border-none"
+                    type="password"
+                    placeholder="Enter your password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className=" text-red-600" />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Login</Button>
+        </form>
+      </Form>
     </>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
-import { useSession, signOut, signIn } from "next-auth/react";
-import LoginForm from "@/components/LoginForm";
+import LoginCard from "@/components/LoginCard";
 import { Button } from "@/components/ui/button";
+import { useSession, signOut } from "next-auth/react";
 
 export default function Home() {
   const { data } = useSession();
@@ -12,11 +12,12 @@ export default function Home() {
   };
   return (
     <>
-      {/* <h1>Hello, testing development branch</h1>
+      <h1>Hello</h1>
+      <h1>Hello, testing development branch</h1>
       <div className="flex justify-center items-center">
-        <LoginForm />
-      </div> */}
-      <div>{JSON.stringify(data?.user?.name)}</div>
+        <LoginCard />
+      </div>
+      <div>{JSON.stringify(data?.user)}</div>
 
       <Button onClick={() => handleLogOut}>Log out</Button>
     </>

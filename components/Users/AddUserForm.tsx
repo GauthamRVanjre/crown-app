@@ -21,11 +21,13 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 import { AddUserFormValidation } from "@/lib/validations/AddUserFormValidation";
 import { Switch } from "../ui/switch";
+import { useQueryClient } from "@tanstack/react-query";
+import { Dialog, DialogClose } from "../ui/dialog";
 
 const AddUserForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageURL, setImageURL] = useState("");
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof AddUserFormValidation>>({
     resolver: zodResolver(AddUserFormValidation),
@@ -38,25 +40,27 @@ const AddUserForm = () => {
   });
 
   const onFinish = async (values: z.infer<typeof AddUserFormValidation>) => {
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    console.log("values", values);
-    // try {
-    //   const response = await fetch(`/api/users/${session?.user?.id}`, {
-    //     method: "PUT",
-    //     body: JSON.stringify(values),
-    //   });
+    // console.log("values", values);
+    try {
+      const response = await fetch(`/api/users`, {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
 
-    //   if (response.status === 200) {
-    //     toast.success("user profile updated successfully");
-    //   } else {
-    //     toast.error("something went wrong! try again");
-    //   }
-    // } catch (error) {
-    //   console.log("something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      if (response.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        toast.success("user created successfully");
+      } else {
+        toast.error("something went wrong! try again");
+      }
+    } catch (error) {
+      console.log("something went wrong");
+    } finally {
+      setIsLoading(false);
+      form.reset();
+    }
   };
   return (
     <>

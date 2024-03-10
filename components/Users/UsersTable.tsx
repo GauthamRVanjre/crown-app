@@ -19,9 +19,10 @@ const UsersTable = () => {
     return data;
   };
 
-  const { data, isLoading, isSuccess } = useQuery<userTypes[]>({
+  const { data, isLoading, isSuccess, refetch } = useQuery<userTypes[]>({
     queryKey: ["users"],
     queryFn: getUsers,
+    refetchOnReconnect: true,
   });
 
   return (

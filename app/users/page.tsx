@@ -7,7 +7,6 @@ import React from "react";
 const page = () => {
   return (
     <>
-      <Navbar />
       <div className="flex justify-end  pr-28 mt-16">
         <AddUserModal />
       </div>

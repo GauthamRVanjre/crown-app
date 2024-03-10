@@ -1,5 +1,5 @@
 "use client";
-import { LoginFormValidation } from "@/app/validations/LoginFormValidation";
+import { LoginFormValidation } from "@/lib/validations/LoginFormValidation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

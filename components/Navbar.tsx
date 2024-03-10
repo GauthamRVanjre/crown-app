@@ -6,28 +6,39 @@
 "use client";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import crown from "@/public/CROWN.png";
+import { useSession, signOut } from "next-auth/react";
+import { userTypes } from "@/lib/types";
 
 export default function Navbar() {
-  const [navItems, setNavItems] = useState(false);
+  const { data } = useSession();
+  let adminStatus;
+  // console.log(userDetails.email)
+
+  const handleLogOut = async () => {
+    await signOut();
+    localStorage.clear();
+  };
   return (
     <header className=" bg-black  border-gray-200/50 shadow-sm dark:bg-gray-950 dark:border-gray-950/50 dark:shadow dark:border-gray-950">
       <div>
         <nav className="flex h-14 items-center">
-          <Link className="flex items-center font-semibold" href="/users">
+          <Link className="flex items-center font-semibold" href="/">
             <Image src={crown} alt="crown image" height={100} width={100} />
           </Link>
           <div className="flex-1" />
 
           <div className="md:flex">
-            <Link
-              className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
-              href="#"
-            >
-              Home
-            </Link>
+            {data?.user && data?.user.isAdmin && (
+              <Link
+                className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                href="/users"
+              >
+                Users
+              </Link>
+            )}
             <Link
               className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
               href="#"
@@ -40,12 +51,15 @@ export default function Navbar() {
             >
               Services
             </Link>
-            <Link
-              className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
-              href="#"
-            >
-              Portfolio
-            </Link>
+            {data?.user && !data?.user.isAdmin && (
+              <Link
+                className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                href="#"
+              >
+                Profile
+              </Link>
+            )}
+            {data?.user && <Button onClick={handleLogOut}>Log out</Button>}
           </div>
         </nav>
       </div>

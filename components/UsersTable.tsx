@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -8,27 +9,43 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useQuery } from "@tanstack/react-query";
+import { userTypes } from "@/lib/types";
+import { Switch } from "./ui/switch";
 
 const UsersTable = () => {
+  const getUsers = async () => {
+    const res = await fetch("/api/users");
+    const data = await res.json();
+    return data;
+  };
+
+  const { data, isLoading, isSuccess } = useQuery<userTypes[]>({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
+
   return (
     <div className=" flex justify-center items-center pl-32 pr-32">
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableCaption>A list of Users</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
+            <TableHead className="w-[100px]">Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Admin</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="font-medium">INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell className="text-right">$250.00</TableCell>
-          </TableRow>
+          {isLoading && <div className="text-center pt-4">Loading...</div>}
+          {isSuccess &&
+            data?.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-bold">{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.isAdmin ? "YES" : "NO"}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

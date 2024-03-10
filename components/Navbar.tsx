@@ -6,13 +6,16 @@
 "use client";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import crown from "@/public/CROWN.png";
 import { useSession, signOut } from "next-auth/react";
+import { userTypes } from "@/lib/types";
 
 export default function Navbar() {
   const { data } = useSession();
+  let adminStatus;
+  // console.log(userDetails.email)
 
   const handleLogOut = async () => {
     await signOut();

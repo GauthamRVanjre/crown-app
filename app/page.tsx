@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Home() {
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   return (
     <>

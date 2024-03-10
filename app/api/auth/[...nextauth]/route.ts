@@ -56,6 +56,10 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+    maxAge: 6592000, //30days
+  },
   callbacks: {
     async jwt({ token, user }) {
       return { ...token, ...user };

@@ -6,27 +6,23 @@
 "use client";
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import crown from "@/public/CROWN.png";
 import { useSession, signOut } from "next-auth/react";
-import { userTypes } from "@/lib/types";
 
 export default function Navbar() {
   const { data } = useSession();
-  let adminStatus;
-  // console.log(userDetails.email)
 
   const handleLogOut = async () => {
     await signOut();
-    localStorage.clear();
+    window.location.replace("/");
   };
   return (
     <header className=" bg-black  border-gray-200/50 shadow-sm dark:bg-gray-950 dark:border-gray-950/50 dark:shadow dark:border-gray-950">
       <div>
-        <nav className="flex h-14 items-center">
+        <nav className="flex h-24 items-center">
           <Link className="flex items-center font-semibold" href="/">
-            <Image src={crown} alt="crown image" height={100} width={100} />
+            <Image src={crown} alt="crown image" height={100} width={150} />
           </Link>
           <div className="flex-1" />
 

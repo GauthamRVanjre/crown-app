@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import AddUserModal from "@/components/Users/AddUserModal";
 import UsersTable from "@/components/Users/UsersTable";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import React, { useEffect, useLayoutEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -12,7 +13,8 @@ const page = () => {
   useLayoutEffect(() => {
     if (!data?.user.isAdmin) {
       toast.error("You do not have permission to access this page.");
-      window.location.replace("/");
+
+      redirect("/Profile");
     }
   }, []);
 

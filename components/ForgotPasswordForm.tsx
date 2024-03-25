@@ -1,5 +1,5 @@
 "use client";
-import { LoginFormValidation } from "@/lib/validations/LoginFormValidation";
+import { ForgotPasswordFormValidation } from "@/lib/validations/ForgotPasswordFormValidation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,47 +15,36 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import ForgotPasswordForm from "./ForgotPasswordForm";
+import { DialogClose } from "./ui/dialog";
+import { useQueryClient } from "@tanstack/react-query";
 
-const LoginForm = () => {
+const ForgotPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const form = useForm<z.infer<typeof LoginFormValidation>>({
-    resolver: zodResolver(LoginFormValidation),
+  const form = useForm<z.infer<typeof ForgotPasswordFormValidation>>({
+    resolver: zodResolver(ForgotPasswordFormValidation),
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onFinish = async (values: z.infer<typeof LoginFormValidation>) => {
-    setIsLoading(true);
+  const onFinish = async (
+    values: z.infer<typeof ForgotPasswordFormValidation>
+  ) => {
+    // setIsLoading(true);
     console.log(values);
     try {
-      const result = await signIn("credentials", {
-        email: values.email,
-        password: values.password,
-        redirect: false,
-        callbackUrl: "/",
-      });
-      console.log(result);
-      if (result?.error) {
-        toast.error("Invalid Credentials");
+      if (values.password !== values.confirmPassword) {
+        toast.error("Confirm password should be same as new password");
       }
-      if (result?.url) {
-        toast.success("login successfull");
-        router.push("/Profile");
-      }
-    } catch (error) {
-      console.log("something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -86,13 +75,13 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-white-600">Password</FormLabel>
+                <FormLabel className="text-white-600">New Password</FormLabel>
                 <FormControl>
                   <Input
                     disabled={isLoading}
                     className=" border-none"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Enter your New password"
                     {...field}
                   />
                 </FormControl>
@@ -101,21 +90,35 @@ const LoginForm = () => {
             )}
           />
 
-          <div className="flex flex-row justify-between">
-            <Button type="submit">Login</Button>
-            <Dialog>
-              <DialogTrigger className="text-red-600">
-                Forgot Password?
-              </DialogTrigger>
-              <DialogContent>
-                <ForgotPasswordForm />
-              </DialogContent>
-            </Dialog>
-          </div>
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-white-600">
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isLoading}
+                    className=" border-none"
+                    type="password"
+                    placeholder="Confirm your Password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage className=" text-red-600" />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit">Reset Password</Button>
+          {/* <DialogClose>
+          </DialogClose> */}
         </form>
       </Form>
     </>
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

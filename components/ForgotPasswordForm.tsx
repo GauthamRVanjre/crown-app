@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { DialogClose } from "./ui/dialog";
+import { Dialog, DialogClose } from "./ui/dialog";
 import { useQueryClient } from "@tanstack/react-query";
 
 const ForgotPasswordForm = () => {
@@ -38,13 +38,45 @@ const ForgotPasswordForm = () => {
   const onFinish = async (
     values: z.infer<typeof ForgotPasswordFormValidation>
   ) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     console.log(values);
     try {
       if (values.password !== values.confirmPassword) {
         toast.error("Confirm password should be same as new password");
       }
-    } catch (error) {}
+      const res = await fetch("/api/users/forgot-password", {
+        method: "POST",
+        body: JSON.stringify(values),
+      });
+
+      if (res.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        toast.success("Password updated successfully");
+      } else {
+        toast.error("something went wrong! try again");
+      }
+
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      console.log(result);
+      if (result?.error) {
+        toast.error("Invalid Credentials");
+      }
+      if (result?.url) {
+        toast.success("login successfull");
+        router.push("/Profile");
+      }
+
+      form.reset();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -60,7 +92,6 @@ const ForgotPasswordForm = () => {
                 <FormControl>
                   <Input
                     disabled={isLoading}
-                    className=" border-none"
                     type="email"
                     placeholder="Enter your Email"
                     {...field}
@@ -79,7 +110,6 @@ const ForgotPasswordForm = () => {
                 <FormControl>
                   <Input
                     disabled={isLoading}
-                    className=" border-none"
                     type="password"
                     placeholder="Enter your New password"
                     {...field}
@@ -101,7 +131,6 @@ const ForgotPasswordForm = () => {
                 <FormControl>
                   <Input
                     disabled={isLoading}
-                    className=" border-none"
                     type="password"
                     placeholder="Confirm your Password"
                     {...field}

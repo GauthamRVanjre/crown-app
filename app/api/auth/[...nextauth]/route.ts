@@ -29,12 +29,12 @@ const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // const isPasswordCorrect = await bcrypt.compare(
-          //   credentials.password,
-          //   askedUser?.password!
-          // );
+          const isPasswordCorrect = await bcrypt.compare(
+            credentials.password,
+            askedUser?.password!
+          );
 
-          const isPasswordCorrect = true;
+          // const isPasswordCorrect = true;
 
           if (isPasswordCorrect) {
             return {

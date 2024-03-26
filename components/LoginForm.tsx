@@ -15,9 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -98,7 +100,18 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+
+          <div className="flex flex-row justify-between">
+            <Button type="submit">Login</Button>
+            <Dialog>
+              <DialogTrigger className="text-red-600">
+                Forgot Password?
+              </DialogTrigger>
+              <DialogContent>
+                <ForgotPasswordForm />
+              </DialogContent>
+            </Dialog>
+          </div>
         </form>
       </Form>
     </>

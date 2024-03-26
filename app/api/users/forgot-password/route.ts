@@ -5,8 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest, res: NextResponse) {
   const { email, password, confirmPassword } = await req.json();
 
-  console.log("email", email);
-
   try {
     if (confirmPassword !== password) {
       return new NextResponse(
@@ -30,10 +28,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const isPasswordSame = await bcrypt.compare(password, userData?.password!);
-    console.log(
-      "shoudl comaper previous password and current password",
-      isPasswordSame
-    );
 
     if (isPasswordSame) {
       return new NextResponse(

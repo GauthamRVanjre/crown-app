@@ -35,6 +35,25 @@ const ForgotPasswordForm = () => {
     },
   });
 
+  const Login = async (
+    values: z.infer<typeof ForgotPasswordFormValidation>
+  ) => {
+    const result = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+      callbackUrl: "/",
+    });
+    console.log(result);
+    if (result?.error) {
+      toast.error("Invalid Credentials");
+    }
+    if (result?.url) {
+      toast.success("login successfull");
+      router.push("/Profile");
+    }
+  };
+
   const onFinish = async (
     values: z.infer<typeof ForgotPasswordFormValidation>
   ) => {
@@ -52,26 +71,13 @@ const ForgotPasswordForm = () => {
       if (res.status === 200) {
         queryClient.invalidateQueries({ queryKey: ["users"] });
         toast.success("Password updated successfully");
+        await Login(values);
+        form.reset();
+      } else if (res.status === 403) {
+        toast.error("New Password cannot be same as current password");
       } else {
         toast.error("something went wrong! try again");
       }
-
-      const result = await signIn("credentials", {
-        email: values.email,
-        password: values.password,
-        redirect: false,
-        callbackUrl: "/",
-      });
-      console.log(result);
-      if (result?.error) {
-        toast.error("Invalid Credentials");
-      }
-      if (result?.url) {
-        toast.success("login successfull");
-        router.push("/Profile");
-      }
-
-      form.reset();
     } catch (error) {
       console.log(error);
     } finally {

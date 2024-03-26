@@ -30,10 +30,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const isPasswordSame = await bcrypt.compare(password, userData?.password!);
+    console.log(
+      "shoudl comaper previous password and current password",
+      isPasswordSame
+    );
 
     if (isPasswordSame) {
       return new NextResponse(
-        JSON.stringify({ error: "Password cannot be same" }),
+        JSON.stringify({
+          error: "Password cannot be same as previous password",
+        }),
         { status: 403 }
       );
     }

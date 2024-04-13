@@ -21,8 +21,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <TradingViewWidget />
           <Navbar />
+          <TradingViewWidget />
           {children}
         </Providers>
       </body>

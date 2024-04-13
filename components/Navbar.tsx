@@ -18,7 +18,7 @@ export default function Navbar() {
     window.location.replace("/");
   };
   return (
-    <header className=" bg-black mt-6  border-gray-200/50 shadow-sm dark:bg-gray-950 dark:border-gray-950/50 dark:shadow dark:border-gray-950">
+    <header className=" bg-black  border-gray-200/50 shadow-sm dark:bg-gray-950 dark:border-gray-950/50 dark:shadow dark:border-gray-950">
       <div>
         <nav className="flex h-24 items-center">
           <Link className="flex items-center font-semibold" href="/">

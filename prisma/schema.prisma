@@ -19,4 +19,39 @@ model User {
   email    String   @unique
   isAdmin  Boolean
   password String
+
+  brokerName String?
+  phoneNumber Int?
+  investmentGoal Int?
+  riskTakingCapacity  riskTakingCapacityTypes?
+
+}
+
+enum riskTakingCapacityTypes {
+  low 
+  medium
+  high
+  veryHigh
+}
+
+model Investment{
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  amount Int
+  transactionDate DateTime
+  transactionType investmentTypeEnum 
+
+  status TransactionStatus
+  approvalNote String
+  rejectionNote String
+}
+
+enum TransactionStatus {
+  pending  
+  approved
+  rejected
+}
+
+enum investmentTypeEnum {
+  Trading 
+  Investment
 }

@@ -1,4 +1,5 @@
 "use client";
+import ProfileLayout from "@/components/Profile/ProfileLayout";
 import TradingViewWidget from "@/components/TradingViewWidget";
 import { useSession } from "next-auth/react";
 import React from "react";
@@ -9,6 +10,7 @@ const Page = () => {
   return (
     <>
       <div>Welcome to the Crown, {session?.user.name}</div>
+      <ProfileLayout />
     </>
   );
 };

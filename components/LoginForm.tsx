@@ -33,9 +33,12 @@ const LoginForm = () => {
     },
   });
 
+  // setIsLoading(true);
+
   const onFinish = async (values: z.infer<typeof LoginFormValidation>) => {
     setIsLoading(true);
     console.log(values);
+    // console.log("loading", isLoading);
     try {
       const result = await signIn("credentials", {
         email: values.email,
@@ -102,7 +105,14 @@ const LoginForm = () => {
           />
 
           <div className="flex flex-row justify-between">
-            <Button type="submit">Login</Button>
+            {isLoading ? (
+              <Button>
+                <div className="loading">Please Wait...</div>
+                {/* Please Wait... */}
+              </Button>
+            ) : (
+              <Button type="submit">Login</Button>
+            )}
             {/* <Dialog>
               <DialogTrigger className="text-red-600">
                 Forgot Password?

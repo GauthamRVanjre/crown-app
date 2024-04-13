@@ -20,10 +20,10 @@ model User {
   isAdmin  Boolean
   password String
 
-  brokerName String
-  phoneNumber Int
-  investmentGoal Int
-  riskTakingCapacity  riskTakingCapacityTypes
+  brokerName String?
+  phoneNumber Int?
+  investmentGoal Int?
+  riskTakingCapacity  riskTakingCapacityTypes?
 
 }
 

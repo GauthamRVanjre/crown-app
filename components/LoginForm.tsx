@@ -103,14 +103,14 @@ const LoginForm = () => {
 
           <div className="flex flex-row justify-between">
             <Button type="submit">Login</Button>
-            <Dialog>
+            {/* <Dialog>
               <DialogTrigger className="text-red-600">
                 Forgot Password?
               </DialogTrigger>
               <DialogContent>
                 <ForgotPasswordForm />
               </DialogContent>
-            </Dialog>
+            </Dialog> */}
           </div>
         </form>
       </Form>

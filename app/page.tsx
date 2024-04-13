@@ -17,7 +17,7 @@ export default function Page() {
                 Welcome To Crown
               </h1>
               <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                Experience Financial Loyalty
+                Experience Financial Royalty
               </p>
             </div>
             <Link

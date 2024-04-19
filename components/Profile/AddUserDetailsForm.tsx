@@ -52,23 +52,29 @@ const AddUserDetailsForm = () => {
   ) => {
     // setIsLoading(true);
     console.log("values", values);
-    // try {
-    //   const response = await fetch(`/api/users`, {
-    //     method: "POST",
-    //     body: JSON.stringify(values),
-    //   });
-    //   if (response.status === 200) {
-    //     queryClient.invalidateQueries({ queryKey: ["users"] });
-    //     toast.success("user created successfully");
-    //   } else {
-    //     toast.error("something went wrong! try again");
-    //   }
-    // } catch (error) {
-    //   console.log("something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    //   form.reset();
-    // }
+    try {
+      const response = await fetch(`/api/users`, {
+        method: "PUT",
+        body: JSON.stringify({
+          brokerName: values.brokerName,
+          phoneNumber: values.phoneNumber,
+          investmentGoal: values.investmentGoal,
+          riskTakingCapacity: values.riskTakingCapacity,
+          userId: session?.user.id || "",
+        }),
+      });
+      if (response.status === 200) {
+        queryClient.invalidateQueries({ queryKey: ["users"] });
+        toast.success("user updated successfully");
+      } else {
+        toast.error("something went wrong! try again");
+      }
+    } catch (error) {
+      console.log("something went wrong");
+    } finally {
+      // setIsLoading(false);
+      // form.reset();
+    }
   };
   return (
     <>

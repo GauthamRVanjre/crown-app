@@ -28,7 +28,9 @@ export default function Component() {
   return (
     <div className="w-full py-6 space-y-6">
       {isLoading ? (
-        <div className="loading">Please Wait..</div>
+        <div className="flex justify-center items-center">
+          <div className="loader mt-20 ml-40"></div>
+        </div>
       ) : (
         <div className="container space-y-4">
           <UserDetailsCard data={data} />

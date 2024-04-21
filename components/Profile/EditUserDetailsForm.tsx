@@ -1,5 +1,4 @@
 "use client";
-import { userTypes } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -31,8 +30,9 @@ import { Switch } from "../ui/switch";
 import { useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogClose } from "../ui/dialog";
 import { AddUserDetailFormValidation } from "@/lib/validations/AddUserDetailsFormValidation";
+import { userTypes } from "@/lib/types";
 
-const AddUserDetailsForm = () => {
+const EditUserDetailsForm = ({ data }: { data: userTypes | undefined }) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -40,10 +40,10 @@ const AddUserDetailsForm = () => {
   const form = useForm<z.infer<typeof AddUserDetailFormValidation>>({
     resolver: zodResolver(AddUserDetailFormValidation),
     defaultValues: {
-      brokerName: "",
-      phoneNumber: 0,
-      investmentGoal: 0,
-      riskTakingCapacity: "",
+      brokerName: data?.brokerName,
+      phoneNumber: Number(data?.phoneNumber),
+      investmentGoal: Number(data?.investmentGoal),
+      riskTakingCapacity: data?.riskTakingCapacity,
     },
   });
 
@@ -196,4 +196,4 @@ const AddUserDetailsForm = () => {
   );
 };
 
-export default AddUserDetailsForm;
+export default EditUserDetailsForm;

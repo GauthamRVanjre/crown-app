@@ -7,18 +7,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AddUserDetailsForm from "./AddUserDetailsForm";
+import EditUserDetailsForm from "./EditUserDetailsForm";
+import { userTypes } from "@/lib/types";
 
-const AddUserDetailsModal = () => {
+const EditUserDetailsModal = ({ data }: { data: userTypes | undefined }) => {
   return (
     <>
       <Dialog>
-        <DialogTrigger>+ Add New User</DialogTrigger>
+        <DialogTrigger>+ Edit Profile</DialogTrigger>
         <DialogContent className=" border-none">
           <DialogHeader>
-            <DialogTitle>Add New User</DialogTitle>
+            <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
-              <AddUserDetailsForm />
+              <EditUserDetailsForm data={data} />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
@@ -27,4 +28,4 @@ const AddUserDetailsModal = () => {
   );
 };
 
-export default AddUserDetailsModal;
+export default EditUserDetailsModal;

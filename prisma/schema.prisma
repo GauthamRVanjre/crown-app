@@ -23,7 +23,7 @@ model User {
   brokerName String?
   phoneNumber Int?
   investmentGoal Int?
-  riskTakingCapacity  String?
+  riskTakingCapacity  riskTakingCapacityTypes?
 
 }
 

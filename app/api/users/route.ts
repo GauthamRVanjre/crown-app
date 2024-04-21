@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import prisma from "@/prisma/prisma";
+import { riskTakingCapacityTypes } from "@prisma/client";
 
 export async function GET(req: Request) {
   try {
@@ -72,13 +73,10 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  const {
-    investmentGoal,
-    phoneNumber,
-    userId,
-    brokerName,
-    riskTakingCapacity,
-  } = await req.json();
+  let { investmentGoal, phoneNumber, userId, brokerName, riskTakingCapacity } =
+    await req.json();
+
+  riskTakingCapacity = riskTakingCapacity as unknown as riskTakingCapacityTypes;
 
   if (
     (phoneNumber && typeof phoneNumber !== "number") ||

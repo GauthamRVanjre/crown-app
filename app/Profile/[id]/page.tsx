@@ -1,7 +1,6 @@
 "use client";
-import { useSession } from "next-auth/react";
 import ProfileLayout from "@/components/Profile/ProfileLayout";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
 import React from "react";
 
 const Page = () => {
@@ -10,7 +9,6 @@ const Page = () => {
   return (
     <>
       <div>Welcome to the Crown, {session?.user.name}</div>
-      {/* <Link href={`/profile/${session?.user.id}`}>Go to Profile</Link> */}
       <ProfileLayout />
     </>
   );

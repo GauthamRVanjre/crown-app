@@ -3,8 +3,9 @@ import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Button } from "../ui/button";
 import AddUserDetailsModal from "./AddUserDetailsModal";
+import { userTypes } from "@/lib/types";
 
-const UserDetailsCard = () => {
+const UserDetailsCard = ({ data }: { data: userTypes | undefined }) => {
   return (
     <Card>
       <CardHeader>
@@ -17,21 +18,29 @@ const UserDetailsCard = () => {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <div className="font-medium">Jenny Wilson</div>
+            <div className="font-medium">{data?.name}</div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <div className="font-medium">jenny@example.com</div>
+            <div className="font-medium">{data?.email}</div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone">Phone</Label>
-            <div className="font-medium">+1 (555) 123-4567</div>
+            <div className="font-medium">{data?.phoneNumber}</div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="address">Address</Label>
-            <div className="font-medium">
-              123 Street Rd, Cityville, CA, 90001
-            </div>
+            <Label htmlFor="address">Broker Name</Label>
+            <div className="font-medium">{data?.brokerName}</div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address">Investment Goal</Label>
+            <div className="font-medium">{data?.investmentGoal}</div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="address">Risk Taking Capacity</Label>
+            <div className="font-medium">{data?.riskTakingCapacity}</div>
           </div>
         </div>
       </CardContent>

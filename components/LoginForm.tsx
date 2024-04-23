@@ -52,7 +52,8 @@ const LoginForm = () => {
       }
       if (result?.url) {
         toast.success("login successfull");
-        router.push("/Profile");
+        // router.push("/Profile");
+        router.push(`/Profile`);
       }
     } catch (error) {
       console.log("something went wrong");

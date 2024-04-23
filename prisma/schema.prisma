@@ -37,7 +37,7 @@ enum riskTakingCapacityTypes {
 model Investment{
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   amount Int
-  transactionDate DateTime
+  transactionDate DateTime @default(now())
   transactionType investmentTypeEnum 
 
   status TransactionStatus

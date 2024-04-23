@@ -38,28 +38,28 @@ const LoginForm = () => {
   const onFinish = async (values: z.infer<typeof LoginFormValidation>) => {
     setIsLoading(true);
     console.log(values);
-    // console.log("loading", isLoading);
-    // try {
-    //   const result = await signIn("credentials", {
-    //     email: values.email,
-    //     password: values.password,
-    //     redirect: false,
-    //     callbackUrl: "/",
-    //   });
-    //   console.log(result);
-    //   if (result?.error) {
-    //     toast.error("Invalid Credentials");
-    //   }
-    //   if (result?.url) {
-    //     toast.success("login successfull");
-    //     // router.push("/Profile");
-    //     router.push(`/Profile`);
-    //   }
-    // } catch (error) {
-    //   console.log("something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    console.log("loading", isLoading);
+    try {
+      const result = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      console.log(result);
+      if (result?.error) {
+        toast.error("Invalid Credentials");
+      }
+      if (result?.url) {
+        toast.success("login successfull");
+        // router.push("/Profile");
+        router.push(`/Profile`);
+      }
+    } catch (error) {
+      console.log("something went wrong");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

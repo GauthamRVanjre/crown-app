@@ -1,6 +1,7 @@
 import React from "react";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { userTypes } from "@/lib/types";
+import { formDate } from "@/lib/utils/formatDate";
 
 const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
   return (
@@ -14,6 +15,9 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
             <thead>
               <tr className="border-t border-gray-200 dark:border-gray-800">
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Date
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
                   Type
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -25,21 +29,18 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-              <tr className="bg-gray-50 dark:bg-gray-800">
-                <td className="px-4 py-3 text-sm">Seed Funding</td>
-                <td className="px-4 py-3 text-sm">$100,000</td>
-                <td className="px-4 py-3 text-sm">Active</td>
-              </tr>
-              <tr className="bg-gray-50 dark:bg-gray-800">
-                <td className="px-4 py-3 text-sm">Series A</td>
-                <td className="px-4 py-3 text-sm">$500,000</td>
-                <td className="px-4 py-3 text-sm">Active</td>
-              </tr>
-              <tr className="bg-gray-50 dark:bg-gray-800">
-                <td className="px-4 py-3 text-sm">Series B</td>
-                <td className="px-4 py-3 text-sm">$1,000,000</td>
-                <td className="px-4 py-3 text-sm">Pending</td>
-              </tr>
+              {data?.investments.map((investment) => (
+                <tr key={investment.id} className="bg-gray-50 dark:bg-gray-800">
+                  <td className="px-4 py-3 text-sm">
+                    {formDate(investment.transactionDate)}
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    {investment.transactionType}
+                  </td>
+                  <td className="px-4 py-3 text-sm">{investment.amount}</td>
+                  <td className="px-4 py-3 text-sm">{investment.status}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

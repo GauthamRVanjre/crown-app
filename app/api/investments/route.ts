@@ -27,12 +27,10 @@ export async function GET(req: Request, res: NextResponse) {
 export async function POST(req: NextRequest, res: NextResponse) {
   const { amount, transactionType, clientId } = await req.json();
 
-  console.log("amount", amount);
-
   try {
     const investmentData = await prisma.investment.create({
       data: {
-        amount,
+        amount: Number(amount),
         transactionType: transactionType as unknown as investmentTypeEnum,
         status: "pending",
         client: {
@@ -44,6 +42,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     return NextResponse.json({ data: investmentData }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ error }, { status: 500 });
   }
 }

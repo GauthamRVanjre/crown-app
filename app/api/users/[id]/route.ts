@@ -31,6 +31,7 @@ export async function GET(
         investmentGoal: true,
         phoneNumber: true,
         riskTakingCapacity: true,
+        investments: true,
       },
     });
 

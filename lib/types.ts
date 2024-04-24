@@ -1,4 +1,8 @@
-import { riskTakingCapacityTypes } from "@prisma/client";
+import {
+  TransactionStatus,
+  investmentTypeEnum,
+  riskTakingCapacityTypes,
+} from "@prisma/client";
 
 export type userTypes = {
   id: string;
@@ -11,4 +15,16 @@ export type userTypes = {
   investmentGoal: string;
   phoneNumber: string;
   riskTakingCapacity: riskTakingCapacityTypes;
+
+  investments: investmentType[];
+};
+
+export type investmentType = {
+  id: string;
+  amount: number;
+  transactionDate: string;
+  transactionType: investmentTypeEnum;
+  status: TransactionStatus;
+  approvalNote: string;
+  rejectionNote: string;
 };

@@ -27,4 +27,8 @@ export type investmentType = {
   status: TransactionStatus;
   approvalNote: string;
   rejectionNote: string;
+  client: {
+    id: string;
+    name: string;
+  };
 };

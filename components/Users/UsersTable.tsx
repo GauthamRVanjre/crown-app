@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
 import { userTypes } from "@/lib/types";
-import { Switch } from "../ui/switch";
 
 const UsersTable = () => {
   const getUsers = async () => {

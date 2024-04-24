@@ -13,6 +13,14 @@ export async function GET(req: Request, res: NextResponse) {
     const investmentData = await prisma.investment.findMany({
       skip,
       take,
+      include: {
+        client: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(

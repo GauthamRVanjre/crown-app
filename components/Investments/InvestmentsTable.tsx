@@ -24,6 +24,7 @@ import toast from "react-hot-toast";
 const InvestmentsTable = () => {
   const [approvalNote, setApprovalNote] = useState("");
   const [rejectionNote, setRejectionNote] = useState("");
+  const [Loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
   const getInvestments = async () => {
@@ -46,6 +47,7 @@ const InvestmentsTable = () => {
 
   const approveInvestment = async (id: string) => {
     try {
+      setLoading(true);
       const res = await fetch("/api/investments/approve", {
         method: "PUT",
         body: JSON.stringify({
@@ -66,11 +68,13 @@ const InvestmentsTable = () => {
       toast.error("something went wrong! try again");
     } finally {
       setApprovalNote("");
+      setLoading(false);
     }
   };
 
   const rejectInvestment = async (id: string) => {
     try {
+      setLoading(true);
       const res = await fetch("/api/investments/reject", {
         method: "PUT",
         body: JSON.stringify({
@@ -91,6 +95,7 @@ const InvestmentsTable = () => {
       toast.error("something went wrong! try again");
     } finally {
       setRejectionNote("");
+      setLoading(false);
     }
   };
 
@@ -120,7 +125,7 @@ const InvestmentsTable = () => {
               <TableCell>{investment.amount}</TableCell>
               <TableCell>{investment.status}</TableCell>
               <TableCell>
-                {investment.status !== "pending" && (
+                {investment.status === "pending" && (
                   <div className="flex">
                     <Popover>
                       <PopoverTrigger asChild>
@@ -143,6 +148,7 @@ const InvestmentsTable = () => {
 
                         <Button
                           onClick={() => approveInvestment(investment.id)}
+                          className={`${Loading && "loader"} mt-2`}
                         >
                           Submit
                         </Button>
@@ -168,7 +174,10 @@ const InvestmentsTable = () => {
                             onChange={(e) => setRejectionNote(e.target.value)}
                           />
                         </div>
-                        <Button onClick={() => rejectInvestment(investment.id)}>
+                        <Button
+                          className={`${Loading && "loader"} mt-2`}
+                          onClick={() => rejectInvestment(investment.id)}
+                        >
                           Submit
                         </Button>
                       </PopoverContent>

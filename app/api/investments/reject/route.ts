@@ -10,7 +10,7 @@ export async function PUT(req: Request, res: NextResponse) {
         id: investmentId,
       },
       data: {
-        status: "approved",
+        status: "rejected",
         rejectionNote,
       },
     });

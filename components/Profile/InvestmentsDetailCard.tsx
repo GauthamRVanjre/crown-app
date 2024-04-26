@@ -2,6 +2,7 @@ import React from "react";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { userTypes } from "@/lib/types";
 import { formDate } from "@/lib/utils/formatDate";
+import AddInvestmentsModal from "../Investments/AddInvestmentsModal";
 
 const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
   return (
@@ -10,6 +11,9 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
         <h2 className="text-xl font-bold">Investments</h2>
       </CardHeader>
       <CardContent>
+        <div className="flex justify-end">
+          <AddInvestmentsModal id={data?.id} />
+        </div>
         <div className="overflow-auto">
           <table className="min-w-full w-full">
             <thead>

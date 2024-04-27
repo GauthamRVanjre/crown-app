@@ -9,7 +9,7 @@ const Page = ({ params }: { params: { id: string } }) => {
   return (
     <>
       <div>
-        Welcome to the Crown, {session?.user.name} with id as {id}
+        Welcome to the Crown, {session?.user.name} with Client id as {id}
       </div>
       <ProfileLayout />
     </>

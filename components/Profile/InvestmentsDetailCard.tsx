@@ -4,6 +4,9 @@ import { investmentType, userTypes } from "@/lib/types";
 import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import AddInvestmentsModal from "../Investments/AddInvestmentsModal";
 import { useQuery } from "@tanstack/react-query";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Input } from "postcss";
+import { Button } from "../ui/button";
 
 const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
   // const getUserInvestments = async () => {
@@ -68,7 +71,23 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
                       {investment.transactionType}
                     </td>
                     <td className="px-4 py-3 text-sm">{investment.amount}</td>
-                    <td className="px-4 py-3 text-sm">{investment.status}</td>
+                    <td className="px-4 py-3 text-sm">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            // className="text-white bg-green-600 mr-2 border-none"
+                            variant="outline"
+                          >
+                            {investment.status}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                          {investment.approvalNote
+                            ? investment.approvalNote
+                            : investment.rejectionNote}
+                        </PopoverContent>
+                      </Popover>
+                    </td>
                     <td className="px-4 py-3 text-sm">
                       {formatDate(investment.updatedAt) +
                         " - " +

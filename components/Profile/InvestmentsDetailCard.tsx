@@ -1,7 +1,7 @@
 import React from "react";
 import { CardHeader, CardContent, Card } from "@/components/ui/card";
 import { userTypes } from "@/lib/types";
-import { formDate } from "@/lib/utils/formatDate";
+import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import AddInvestmentsModal from "../Investments/AddInvestmentsModal";
 
 const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
@@ -22,6 +22,9 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
                   Date
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Time
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
                   Type
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -36,7 +39,10 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
               {data?.investments.map((investment) => (
                 <tr key={investment.id} className="bg-gray-50 dark:bg-gray-800">
                   <td className="px-4 py-3 text-sm">
-                    {formDate(investment.transactionDate)}
+                    {formatDate(investment.transactionDate)}
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    {formatTime(investment.transactionDate)}
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {investment.transactionType}

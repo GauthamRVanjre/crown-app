@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { investmentType } from "@/lib/types";
-import { formDate } from "@/lib/utils/formatDate";
+import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import { Button } from "../ui/button";
 import {
   Popover,
@@ -106,6 +106,7 @@ const InvestmentsTable = () => {
         <TableRow>
           <TableHead className="w-[100px]">Name</TableHead>
           <TableHead>Date</TableHead>
+          <TableHead>Time</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Amount</TableHead>
           <TableHead>Status</TableHead>
@@ -120,7 +121,8 @@ const InvestmentsTable = () => {
               <TableCell className="font-bold">
                 {investment.client?.name}
               </TableCell>
-              <TableCell>{formDate(investment.transactionDate)}</TableCell>
+              <TableCell>{formatDate(investment.transactionDate)}</TableCell>
+              <TableCell>{formatTime(investment.transactionDate)}</TableCell>
               <TableCell>{investment.transactionType}</TableCell>
               <TableCell>{investment.amount}</TableCell>
               <TableCell>{investment.status}</TableCell>

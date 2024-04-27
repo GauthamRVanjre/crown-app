@@ -38,7 +38,7 @@ const LoginForm = () => {
   const onFinish = async (values: z.infer<typeof LoginFormValidation>) => {
     setIsLoading(true);
     console.log(values);
-    // console.log("loading", isLoading);
+    console.log("loading", isLoading);
     try {
       const result = await signIn("credentials", {
         email: values.email,
@@ -52,7 +52,8 @@ const LoginForm = () => {
       }
       if (result?.url) {
         toast.success("login successfull");
-        router.push("/Profile");
+        // router.push("/Profile");
+        router.push(`/Profile`);
       }
     } catch (error) {
       console.log("something went wrong");
@@ -106,10 +107,7 @@ const LoginForm = () => {
 
           <div className="flex flex-row justify-between">
             {isLoading ? (
-              <Button>
-                <div className="loading">Please Wait...</div>
-                {/* Please Wait... */}
-              </Button>
+              <div className="loader"></div>
             ) : (
               <Button type="submit">Login</Button>
             )}

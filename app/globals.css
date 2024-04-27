@@ -6,7 +6,7 @@
   /* 51 100 50 is for gold */
   :root {
     --foreground: 51 100% 50%;
-    --background: 224 71.4% 4.1%;
+    --background: 224 71.4% 0%;
 
     --card: 51 100% 50%;
     --card-foreground: 224 71.4% 4.1%;
@@ -74,4 +74,22 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
 }

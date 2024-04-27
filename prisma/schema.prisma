@@ -24,7 +24,7 @@ model User {
   phoneNumber Int?
   investmentGoal Int?
   riskTakingCapacity  riskTakingCapacityTypes?
-
+  investments Investment[]
 }
 
 enum riskTakingCapacityTypes {
@@ -37,12 +37,17 @@ enum riskTakingCapacityTypes {
 model Investment{
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   amount Int
-  transactionDate DateTime
+  transactionDate DateTime @default(now())
   transactionType investmentTypeEnum 
 
   status TransactionStatus
-  approvalNote String
-  rejectionNote String
+  approvalNote String?
+  rejectionNote String?
+
+  updatedAt DateTime?
+
+  client  User @relation(fields: [clientId],references: [id])
+  clientId String @db.ObjectId
 }
 
 enum TransactionStatus {

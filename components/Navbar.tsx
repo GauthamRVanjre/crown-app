@@ -28,12 +28,20 @@ export default function Navbar() {
 
           <div className="md:flex">
             {data?.user && data?.user.isAdmin && (
-              <Link
-                className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
-                href="/users"
-              >
-                Users
-              </Link>
+              <>
+                <Link
+                  className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                  href="/users"
+                >
+                  Users
+                </Link>
+                <Link
+                  className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                  href="/investments"
+                >
+                  Investments
+                </Link>
+              </>
             )}
 
             {data?.user && !data?.user.isAdmin && (

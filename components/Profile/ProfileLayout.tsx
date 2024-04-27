@@ -34,7 +34,7 @@ export default function Component() {
       ) : (
         <div className="container space-y-4">
           <UserDetailsCard data={data} />
-          <InvestmentsDetailCard userId={data?.id} />
+          <InvestmentsDetailCard data={data} />
         </div>
       )}
     </div>

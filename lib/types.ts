@@ -16,7 +16,7 @@ export type userTypes = {
   phoneNumber: string;
   riskTakingCapacity: riskTakingCapacityTypes;
 
-  // investments: investmentType[];
+  investments: investmentType[];
 };
 
 export type investmentType = {
@@ -27,6 +27,7 @@ export type investmentType = {
   status: TransactionStatus;
   approvalNote: string;
   rejectionNote: string;
+  updatedAt: string;
   client: {
     id: string;
     name: string;

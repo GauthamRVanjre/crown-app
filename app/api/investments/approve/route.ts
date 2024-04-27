@@ -12,6 +12,7 @@ export async function PUT(req: Request, res: NextResponse) {
       data: {
         status: "approved",
         approvalNote,
+        updatedAt: new Date(),
       },
     });
 

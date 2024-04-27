@@ -3,12 +3,14 @@ import ProfileLayout from "@/components/Profile/ProfileLayout";
 import { useSession } from "next-auth/react";
 import React from "react";
 
-const Page = () => {
+const Page = ({ params }: { params: { id: string } }) => {
   const { data: session } = useSession();
-
+  const { id } = params;
   return (
     <>
-      <div>Welcome to the Crown, {session?.user.name}</div>
+      <div>
+        Welcome to the Crown, {session?.user.name} with Client id as {id}
+      </div>
       <ProfileLayout />
     </>
   );

@@ -1,8 +1,8 @@
 "use client";
 import { useSession } from "next-auth/react";
-import ProfileLayout from "@/components/Profile/ProfileLayout";
 import Link from "next/link";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
 const Page = () => {
   const { data: session } = useSession();
@@ -10,8 +10,11 @@ const Page = () => {
   return (
     <>
       <div>Welcome to the Crown, {session?.user.name}</div>
-      {/* <Link href={`/profile/${session?.user.id}`}>Go to Profile</Link> */}
-      <ProfileLayout />
+      <div className="flex justify-center items-center mt-10">
+        <Link href={`/Profile/${session?.user.id}`}>
+          <Button>Go to Profile</Button>
+        </Link>
+      </div>
     </>
   );
 };

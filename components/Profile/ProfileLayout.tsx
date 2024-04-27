@@ -11,6 +11,7 @@ import InvestmentsDetailCard from "./InvestmentsDetailCard";
 
 export default function Component() {
   const { data: session } = useSession();
+  console.log("user id", session?.user.id);
 
   const getUserDetails = async () => {
     const res = await fetch(`/api/users/${session?.user.id}`);
@@ -33,7 +34,7 @@ export default function Component() {
       ) : (
         <div className="container space-y-4">
           <UserDetailsCard data={data} />
-          <InvestmentsDetailCard data={data} />
+          <InvestmentsDetailCard userId={data?.id} />
         </div>
       )}
     </div>

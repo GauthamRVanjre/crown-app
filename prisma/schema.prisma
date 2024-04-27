@@ -44,6 +44,8 @@ model Investment{
   approvalNote String?
   rejectionNote String?
 
+  updatedAt DateTime @default(now())
+
   client  User @relation(fields: [clientId],references: [id])
   clientId String @db.ObjectId
 }

@@ -16,7 +16,7 @@ export type userTypes = {
   phoneNumber: string;
   riskTakingCapacity: riskTakingCapacityTypes;
 
-  investments: investmentType[];
+  // investments: investmentType[];
 };
 
 export type investmentType = {

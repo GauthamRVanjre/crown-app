@@ -32,7 +32,6 @@ export async function GET(
         name: true,
         phoneNumber: true,
         riskTakingCapacity: true,
-        investments: true,
       },
     });
 

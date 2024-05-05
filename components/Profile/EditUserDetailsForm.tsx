@@ -32,7 +32,13 @@ import { Dialog, DialogClose } from "../ui/dialog";
 import { AddUserDetailFormValidation } from "@/lib/validations/AddUserDetailsFormValidation";
 import { userTypes } from "@/lib/types";
 
-const EditUserDetailsForm = ({ data }: { data: userTypes | undefined }) => {
+const EditUserDetailsForm = ({
+  data,
+  setIsOpen,
+}: {
+  data: userTypes | undefined;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -72,8 +78,8 @@ const EditUserDetailsForm = ({ data }: { data: userTypes | undefined }) => {
     } catch (error) {
       console.log("something went wrong");
     } finally {
-      // setIsLoading(false);
-      // form.reset();
+      setIsLoading(false);
+      form.reset();
     }
   };
   return (
@@ -187,7 +193,12 @@ const EditUserDetailsForm = ({ data }: { data: userTypes | undefined }) => {
             )}
           />
 
-          <Button className="mt-2" disabled={isLoading} type="submit">
+          <Button
+            className={`${isLoading && "loader"} mt-2`}
+            disabled={isLoading}
+            onClick={() => setIsOpen(false)}
+            type="submit"
+          >
             Submit
           </Button>
         </form>

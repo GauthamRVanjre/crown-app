@@ -3,16 +3,13 @@ import { investmentTypeEnum } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: Request, res: NextResponse) {
-  const url = new URL(req.url).searchParams;
-  const skip = Number(url.get("skip"));
-  const take = Number(url.get("take"));
-
   try {
     const investmentCount = await prisma.investment.count();
 
     const investmentData = await prisma.investment.findMany({
-      skip,
-      take,
+      orderBy: {
+        transactionDate: "desc",
+      },
       include: {
         client: {
           select: {

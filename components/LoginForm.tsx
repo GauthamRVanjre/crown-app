@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
@@ -50,10 +50,13 @@ const LoginForm = () => {
       if (result?.error) {
         toast.error("Invalid Credentials");
       }
+
       if (result?.url) {
         toast.success("login successfull");
-        // router.push("/Profile");
-        router.push(`/Profile`);
+        // const { data: session } = useSession();
+        // console.log("session: ", session);
+        router.push("/Profile");
+        // router.push(`/Profile`);
       }
     } catch (error) {
       console.log("something went wrong");

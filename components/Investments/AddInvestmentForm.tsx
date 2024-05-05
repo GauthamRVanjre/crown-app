@@ -1,4 +1,3 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,7 +29,13 @@ import { Dialog, DialogClose } from "../ui/dialog";
 import { userTypes } from "@/lib/types";
 import { AddInvestmentFormValidation } from "@/lib/validations/AddInvestmentFormValidation";
 
-const AddInvestmentForm = ({ id }: { id: string | undefined }) => {
+const AddInvestmentForm = ({
+  id,
+  setIsOpen,
+}: {
+  id: string | undefined;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -67,6 +72,7 @@ const AddInvestmentForm = ({ id }: { id: string | undefined }) => {
       console.log("something went wrong");
     } finally {
       setIsLoading(false);
+
       form.reset();
     }
   };
@@ -108,12 +114,12 @@ const AddInvestmentForm = ({ id }: { id: string | undefined }) => {
             name="transactionType"
             render={({ field }) => (
               <FormItem className="mt-8 w-[400px]">
-                <FormLabel>Risk Taking Capacity</FormLabel>
+                <FormLabel>Investment Option</FormLabel>
                 <FormControl>
                   <Select onValueChange={field.onChange}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select an appropriate transaction type" />
+                        <SelectValue placeholder="Select an appropriate Investment Option" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -130,6 +136,7 @@ const AddInvestmentForm = ({ id }: { id: string | undefined }) => {
           <Button
             className={`${isLoading && "loader"} mt-2`}
             disabled={isLoading}
+            onClick={() => setIsOpen(false)}
             type="submit"
           >
             Submit

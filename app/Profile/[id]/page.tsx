@@ -1,5 +1,5 @@
 "use client";
-import ProfileLayout from "@/components/Profile/ProfileLayout";
+import ProfileLayout from "@/components/Profile/UserProfileLayout";
 import { useSession } from "next-auth/react";
 import React from "react";
 

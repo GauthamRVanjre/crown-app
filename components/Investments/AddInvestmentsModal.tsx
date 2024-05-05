@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,15 +11,17 @@ import {
 import AddInvestmentForm from "./AddInvestmentForm";
 
 const AddInvestmentsModal = ({ id }: { id: string | undefined }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger>+ Add Investment</DialogTrigger>
         <DialogContent className=" border-none">
           <DialogHeader>
             <DialogTitle>Add Investment</DialogTitle>
             <DialogDescription>
-              <AddInvestmentForm id={id} />
+              <AddInvestmentForm id={id} setIsOpen={setIsOpen} />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

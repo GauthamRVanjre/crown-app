@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,17 @@ import EditUserDetailsForm from "./EditUserDetailsForm";
 import { userTypes } from "@/lib/types";
 
 const EditUserDetailsModal = ({ data }: { data: userTypes | undefined }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger>+ Edit Profile</DialogTrigger>
         <DialogContent className=" border-none">
           <DialogHeader>
             <DialogTitle>Edit Profile</DialogTitle>
             <DialogDescription>
-              <EditUserDetailsForm data={data} />
+              <EditUserDetailsForm data={data} setIsOpen={setIsOpen} />
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

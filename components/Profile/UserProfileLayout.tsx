@@ -19,7 +19,7 @@ export default function Component() {
     return data;
   };
 
-  const { data, isLoading, isSuccess, refetch } = useQuery<userTypes>({
+  const { data, isLoading, isSuccess } = useQuery<userTypes>({
     queryKey: ["users"],
     queryFn: getUserDetails,
     refetchOnReconnect: true,
@@ -34,7 +34,7 @@ export default function Component() {
       ) : (
         <div className="container space-y-4">
           <UserDetailsCard data={data} />
-          <InvestmentsDetailCard data={data} />
+          <InvestmentsDetailCard userId={data?.id} />
         </div>
       )}
     </div>

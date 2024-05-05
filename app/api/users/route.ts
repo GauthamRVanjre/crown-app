@@ -76,6 +76,8 @@ export async function PUT(req: Request) {
   let { investmentGoal, phoneNumber, userId, brokerName, riskTakingCapacity } =
     await req.json();
 
+  console.log("phone number: ", phoneNumber);
+
   riskTakingCapacity = riskTakingCapacity as unknown as riskTakingCapacityTypes;
 
   if (
@@ -92,6 +94,8 @@ export async function PUT(req: Request) {
     );
   }
 
+  console.log("phone number value after validation: ", phoneNumber);
+
   const userExists = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -107,6 +111,7 @@ export async function PUT(req: Request) {
     });
   }
 
+  console.log("phone number just before DB transaction: ", phoneNumber);
   try {
     const updatedUser = await prisma.user.update({
       where: {
@@ -123,7 +128,7 @@ export async function PUT(req: Request) {
 
     return new Response(JSON.stringify(updatedUser), { status: 200 });
   } catch (error) {
-    return new Response(JSON.stringify({ message: "catch blovk" }), {
+    return new Response(JSON.stringify({ message: "catch block" }), {
       status: 500,
     });
   }

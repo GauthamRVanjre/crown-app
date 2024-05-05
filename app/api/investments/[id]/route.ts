@@ -6,7 +6,6 @@ export async function GET(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  //   console.log("id: ", params.id);
   const { id } = params;
 
   try {
@@ -18,15 +17,14 @@ export async function GET(
         client: {
           select: {
             id: true,
+            name: true,
           },
         },
       },
     });
 
-    // const userInvestments: string[] = [];
-
-    console.log(userInvestments);
-    return NextResponse.json(JSON.stringify(userInvestments), { status: 200 });
+    // console.log(userInvestments);
+    return NextResponse.json(userInvestments, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(

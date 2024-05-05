@@ -8,18 +8,20 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Input } from "postcss";
 import { Button } from "../ui/button";
 
-const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
-  // const getUserInvestments = async () => {
-  //   const res = await fetch(`/api/investments/${userId}`);
-  //   const data = await res.json();
-  //   return data;
-  // };
+const InvestmentsDetailCard = ({ userId }: { userId: string | undefined }) => {
+  const getUserInvestments = async () => {
+    const res = await fetch(`/api/investments/${userId}`);
+    const data = await res.json();
+    return data;
+  };
 
-  // const { data, isLoading, isSuccess, refetch } = useQuery<investmentType[]>({
-  //   queryKey: ["investments"],
-  //   queryFn: getUserInvestments,
-  //   refetchOnReconnect: true,
-  // });
+  const { data, isLoading, isSuccess, refetch } = useQuery<investmentType[]>({
+    queryKey: ["investments"],
+    queryFn: getUserInvestments,
+    refetchOnReconnect: true,
+  });
+
+  console.log("data", data);
 
   return (
     <Card>
@@ -28,7 +30,7 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
       </CardHeader>
       <CardContent>
         <div className="flex justify-end">
-          <AddInvestmentsModal id={data?.id} />
+          <AddInvestmentsModal id={userId} />
         </div>
         <div className="overflow-auto">
           <table className="min-w-full w-full">
@@ -55,8 +57,8 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-              {data?.investments &&
-                data?.investments?.map((investment) => (
+              {data &&
+                data?.map((investment) => (
                   <tr
                     key={investment.id}
                     className="bg-gray-50 dark:bg-gray-800"
@@ -88,11 +90,15 @@ const InvestmentsDetailCard = ({ data }: { data: userTypes | undefined }) => {
                         </PopoverContent>
                       </Popover>
                     </td>
-                    <td className="px-4 py-3 text-sm">
-                      {formatDate(investment.updatedAt) +
-                        " - " +
-                        formatTime(investment.updatedAt)}
-                    </td>
+                    {investment.updatedAt ? (
+                      <td className="px-4 py-3 text-sm">
+                        {formatDate(investment.updatedAt) +
+                          " - " +
+                          formatTime(investment.updatedAt)}
+                      </td>
+                    ) : (
+                      <td className="px-4 py-3 text-sm">-</td>
+                    )}
                   </tr>
                 ))}
             </tbody>

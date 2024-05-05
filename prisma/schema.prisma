@@ -21,7 +21,7 @@ model User {
   password String
 
   brokerName String?
-  phoneNumber Int?
+  phoneNumber BigInt?
   investmentGoal Int?
   riskTakingCapacity  riskTakingCapacityTypes?
   investments Investment[]

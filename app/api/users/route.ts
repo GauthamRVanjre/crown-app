@@ -76,14 +76,9 @@ export async function PUT(req: Request) {
   let { investmentGoal, phoneNumber, userId, brokerName, riskTakingCapacity } =
     await req.json();
 
-  console.log("phone number: ", phoneNumber);
-
   riskTakingCapacity = riskTakingCapacity as unknown as riskTakingCapacityTypes;
 
-  if (
-    (phoneNumber && typeof phoneNumber !== "number") ||
-    (investmentGoal && typeof investmentGoal !== "number")
-  ) {
+  if (investmentGoal && typeof investmentGoal !== "number") {
     return new Response(
       JSON.stringify({
         message: "Phone number and investment goal must be a number",
@@ -128,6 +123,7 @@ export async function PUT(req: Request) {
 
     return new Response(JSON.stringify(updatedUser), { status: 200 });
   } catch (error) {
+    console.log(error);
     return new Response(JSON.stringify({ message: "catch block" }), {
       status: 500,
     });

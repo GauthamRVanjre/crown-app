@@ -47,7 +47,7 @@ const EditUserDetailsForm = ({
     resolver: zodResolver(AddUserDetailFormValidation),
     defaultValues: {
       brokerName: data?.brokerName,
-      phoneNumber: Number(data?.phoneNumber),
+      phoneNumber: data?.phoneNumber,
       investmentGoal: Number(data?.investmentGoal),
       riskTakingCapacity: data?.riskTakingCapacity,
     },
@@ -116,16 +116,16 @@ const EditUserDetailsForm = ({
                   <Input
                     placeholder="Enter Phone Number"
                     {...field}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value === "") {
-                        field.onChange(0);
-                      } else if (Number.isNaN(Number(value))) {
-                        field.onChange(0);
-                      } else {
-                        field.onChange(Number(value));
-                      }
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   if (value === "") {
+                    //     field.onChange(0);
+                    //   } else if (Number.isNaN(Number(value))) {
+                    //     field.onChange(0);
+                    //   } else {
+                    //     field.onChange(Number(value));
+                    //   }
+                    // }}
                     disabled={isLoading}
                     className="glass rounded-2xl"
                   />

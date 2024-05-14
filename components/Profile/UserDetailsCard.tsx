@@ -33,8 +33,13 @@ const UserDetailsCard = ({ data }: { data: userTypes | undefined }) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="address">Investment Goal</Label>
-            <div className="font-medium">{data?.investmentGoal}</div>
+            <Label htmlFor="address">Total Investments</Label>
+            <div className="font-medium">
+              {data?.investments.reduce(
+                (acc, investment) => acc + investment.amount,
+                0
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">

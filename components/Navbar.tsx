@@ -59,6 +59,12 @@ export default function Navbar() {
                 >
                   Help
                 </Link>
+                <Link
+                  className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                  href="/Forecast"
+                >
+                  Forecast
+                </Link>
               </>
             )}
             {data?.user && <Button onClick={handleLogOut}>Log out</Button>}

@@ -32,3 +32,19 @@ export type investmentType = {
     name: string;
   };
 };
+
+export type consultingCallType = {
+  id: string;
+  client: {
+    id: string;
+    name: string;
+    isAdmin: boolean;
+  };
+  interviewer: {
+    id: string;
+    name: string;
+    isAdmin: boolean;
+  };
+  docLink: string;
+  createdAt: string;
+};

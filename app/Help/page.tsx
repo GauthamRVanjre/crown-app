@@ -67,9 +67,9 @@ export default function ContactHelp() {
     <div className="flex justify-center items-center mt-10">
       <Card>
         <CardHeader>
-          <CardTitle>Login</CardTitle>
+          <CardTitle>Contact Help</CardTitle>
           <CardDescription>
-            Login to your account by entering your email address and password
+            Contact Help if you have encountered some problem on our website
           </CardDescription>
         </CardHeader>
         <CardContent>

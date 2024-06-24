@@ -41,6 +41,12 @@ export default function Navbar() {
                 >
                   Investments
                 </Link>
+                <Link
+                  className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                  href="/consultingCalls"
+                >
+                  Consulting Calls
+                </Link>
               </>
             )}
 
@@ -58,6 +64,12 @@ export default function Navbar() {
                   href="/Help"
                 >
                   Help
+                </Link>
+                <Link
+                  className="font-medium text-amber-300 inline-flex h-9 items-center justify-center px-4 rounded-md text-sm transition-colors hover:text-gray-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950"
+                  href="/Forecast"
+                >
+                  Forecast
                 </Link>
               </>
             )}

@@ -1,22 +1,7 @@
-"use client";
 import AddConsultingCallModal from "@/components/consultingCalls/AddConsultingCallModal";
 import ConsultingCallsTable from "@/components/consultingCalls/ConsultingCallsTable";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import React, { useLayoutEffect } from "react";
-import toast from "react-hot-toast";
 
 const page = () => {
-  const { data } = useSession();
-
-  useLayoutEffect(() => {
-    if (!data?.user.isAdmin) {
-      toast.error("You do not have permission to access this page.");
-
-      redirect("/Profile");
-    }
-  }, []);
-
   return (
     <>
       <div className="flex justify-end pr-8  md:pr-28 mt-16">

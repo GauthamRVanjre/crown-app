@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Table,
@@ -19,9 +20,7 @@ const ConsultingCallsTable = () => {
     return data.data;
   };
 
-  const { data, isLoading, isSuccess, refetch } = useQuery<
-    consultingCallType[]
-  >({
+  const { data, isLoading, isSuccess } = useQuery<consultingCallType[]>({
     queryKey: ["consultingCalls"],
     queryFn: getConsultingCalls,
     refetchOnReconnect: true,
@@ -47,7 +46,14 @@ const ConsultingCallsTable = () => {
                 {user.interviewer?.name}
               </TableCell>
               <TableCell>{user.client?.name}</TableCell>
-              <TableCell>{user.docLink}</TableCell>
+              <TableCell>
+                <a
+                  href="https://drive.google.com/file/d/1i-hQUrcd3iDvqwv1hwcvk58_0dL18vyA/view?usp=sharing"
+                  target="_blank"
+                >
+                  {user.client?.name} - {formatDate(user.createdAt)}
+                </a>
+              </TableCell>
               <TableCell>{formatDate(user.createdAt)}</TableCell>
             </TableRow>
           ))}

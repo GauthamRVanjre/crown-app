@@ -1,3 +1,4 @@
+"use client";
 import { userTypes } from "@/lib/types";
 import { AddConsultingCallsSchema } from "@/lib/validations/AddConsultingCallsFormValidation";
 import { useQueryClient } from "@tanstack/react-query";
@@ -6,7 +7,7 @@ import { z } from "zod";
 import toast from "react-hot-toast";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import CreatableSelect from "react-select/creatable";
+import { Option } from "@/lib/utils/CreateableSelectDropdown";
 import {
   Form,
   FormControl,
@@ -18,10 +19,14 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
+import CreateableSelectDropdown from "@/lib/utils/CreateableSelectDropdown";
 
 const AddConsultingCallForm = () => {
-  const adminUsers: { key: string; value: string }[] = []; // {key: name, value: id}
-  const clientUsers: { key: string; value: string }[] = [];
+  const [interviewers, setInterviewers] = useState<Option[]>([]);
+  const [clients, setClients] = useState<Option[]>([]);
+
+  const [interviewerValue, setInterviewerValue] = useState<Option | null>();
+  const [clientValue, setClientValue] = useState<Option | null>();
 
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -29,12 +34,19 @@ const AddConsultingCallForm = () => {
   const getUsers = async () => {
     const res = await fetch("/api/users");
     const data: userTypes[] = await res.json();
-    console.log(data);
+    const adminUsers: Option[] = [];
+    const clientUsers: Option[] = [];
     data.filter((d) =>
       d.isAdmin
-        ? adminUsers.push({ key: d.name, value: d.id })
-        : clientUsers.push({ key: d.name, value: d.id })
+        ? !adminUsers.some((user) => user.value === d.id)
+          ? adminUsers.push({ value: d.id, label: d.name })
+          : ""
+        : !clientUsers.some((user) => user.value === d.id)
+        ? clientUsers.push({ value: d.id, label: d.name })
+        : ""
     );
+    setInterviewers(adminUsers);
+    setClients(clientUsers);
   };
 
   useEffect(() => {
@@ -51,27 +63,32 @@ const AddConsultingCallForm = () => {
   });
 
   const onFinish = async (values: z.infer<typeof AddConsultingCallsSchema>) => {
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    console.log("values", values);
-    // try {
-    //   const response = await fetch(`/api/users`, {
-    //     method: "POST",
-    //     body: JSON.stringify(values),
-    //   });
+    try {
+      const response = await fetch(`/api/consultingCalls`, {
+        method: "POST",
+        body: JSON.stringify({
+          interviewerId: interviewerValue?.value,
+          clientId: clientValue?.value,
+          docLink: values.docLink,
+        }),
+      });
 
-    //   if (response.status === 200) {
-    //     queryClient.invalidateQueries({ queryKey: ["users"] });
-    //     toast.success("user created successfully");
-    //   } else {
-    //     toast.error("something went wrong! try again");
-    //   }
-    // } catch (error) {
-    //   console.log("something went wrong");
-    // } finally {
-    //   setIsLoading(false);
-    //   form.reset();
-    // }
+      if (response.status === 201) {
+        queryClient.invalidateQueries({
+          queryKey: ["consultingCalls"],
+        });
+        toast.success("call created successfully");
+      } else {
+        toast.error("something went wrong! try again");
+      }
+    } catch (error) {
+      console.log("something went wrong");
+    } finally {
+      setIsLoading(false);
+      form.reset();
+    }
   };
 
   return (
@@ -86,11 +103,11 @@ const AddConsultingCallForm = () => {
                 <FormItem className="mt-8 w-[400px]">
                   <FormLabel>Interviewer</FormLabel>
                   <FormControl>
-                    <CreatableSelect
-                      isDisabled={isLoading}
-                      placeholder="Select Interviewer"
-                      isClearable
-                      options={adminUsers}
+                    <CreateableSelectDropdown
+                      options={interviewers}
+                      isLoading={isLoading}
+                      value={interviewerValue}
+                      setValue={setInterviewerValue}
                     />
                   </FormControl>
                   <FormMessage />
@@ -106,11 +123,20 @@ const AddConsultingCallForm = () => {
                 <FormItem className="mt-8 w-[400px]">
                   <FormLabel>Client</FormLabel>
                   <FormControl>
-                    <CreatableSelect
+                    {/* <CreatableSelect
+                      styles={colourStyles}
                       isDisabled={isLoading}
                       placeholder="Select client"
                       isClearable
                       options={clientUsers}
+                      required
+                    /> */}
+
+                    <CreateableSelectDropdown
+                      options={clients}
+                      isLoading={isLoading}
+                      value={clientValue}
+                      setValue={setClientValue}
                     />
                   </FormControl>
                   <FormMessage />
@@ -132,13 +158,14 @@ const AddConsultingCallForm = () => {
                       type="text"
                       placeholder="Enter Password"
                       {...field}
+                      required
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="mt-2" disabled={isLoading} type="submit">
+            <Button className="mt-8" disabled={isLoading} type="submit">
               Submit
             </Button>
           </ScrollArea>

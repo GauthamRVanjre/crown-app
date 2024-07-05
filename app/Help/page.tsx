@@ -40,8 +40,6 @@ export default function ContactHelp() {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof contactHelpValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
     setLoading(true);
     try {
@@ -50,8 +48,8 @@ export default function ContactHelp() {
         body: JSON.stringify(values),
       });
 
-      if (res.status === 200) {
-        toast.success("Message sent successfully");
+      if (res.status === 201) {
+        toast.success("Query Raised successfully");
       } else {
         toast.error("Error sending message, please try again");
       }

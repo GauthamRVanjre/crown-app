@@ -48,3 +48,15 @@ export type consultingCallType = {
   docLink: string;
   createdAt: string;
 };
+
+export type queryTrackingType = {
+  id: string;
+  subject: string;
+  createdAt: string;
+  createdBy: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  queryStatus: string;
+};

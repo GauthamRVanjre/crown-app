@@ -13,6 +13,9 @@ export async function GET(
       where: {
         clientId: id || "",
       },
+      orderBy: {
+        transactionDate: "desc",
+      },
       include: {
         client: {
           select: {

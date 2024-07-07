@@ -154,9 +154,8 @@ const AddConsultingCallForm = () => {
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      className="glass rounded-2xl"
                       type="text"
-                      placeholder="Enter Password"
+                      placeholder="Enter Doc Link"
                       {...field}
                       required
                     />

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   Table,
@@ -13,19 +14,21 @@ import { queryTrackingType } from "../../lib/types";
 import { formatDate } from "../../lib/utils/formatDate";
 
 const QueryTable = () => {
-  const getUsers = async () => {
-    const res = await fetch("/api/users");
+  const getQueries = async () => {
+    const res = await fetch("/api/QueryTracking");
     const data = await res.json();
     return data;
   };
 
   const { data, isLoading, isSuccess, refetch } = useQuery<queryTrackingType[]>(
     {
-      queryKey: ["users"],
-      queryFn: getUsers,
+      queryKey: ["query"],
+      queryFn: getQueries,
       refetchOnReconnect: true,
     }
   );
+
+  console.log(data);
 
   return (
     <Table>

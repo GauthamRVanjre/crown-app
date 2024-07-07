@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     });
 
     // create a new query with this user as created by
-    const queryCreation = await prisma.queryTracking.create({
+    await prisma.queryTracking.create({
       data: {
         queryStatus: "Raised",
         subject: subject,

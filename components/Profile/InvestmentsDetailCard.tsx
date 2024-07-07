@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Input } from "postcss";
 import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const InvestmentsDetailCard = ({ userId }: { userId: string | undefined }) => {
   const getUserInvestments = async () => {
@@ -26,7 +27,20 @@ const InvestmentsDetailCard = ({ userId }: { userId: string | undefined }) => {
   return (
     <Card>
       <CardHeader>
-        <h2 className="text-xl font-bold">Investments</h2>
+        <Tabs defaultValue="account" className="w-[400px]">
+          <TabsList>
+            <TabsTrigger className="text-xl font-bold" value="account">
+              Investments
+            </TabsTrigger>
+            <TabsTrigger className="text-xl font-bold" value="password">
+              Queries
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">
+            Make changes to your account here.
+          </TabsContent>
+          <TabsContent value="password">Change your password here.</TabsContent>
+        </Tabs>
       </CardHeader>
       <CardContent>
         <div className="flex justify-end">
@@ -36,24 +50,12 @@ const InvestmentsDetailCard = ({ userId }: { userId: string | undefined }) => {
           <table className="min-w-full w-full">
             <thead>
               <tr className="border-t border-gray-200 dark:border-gray-800">
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Order placed at Date
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Order placed at Time
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Type
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Amount
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Status
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400">
-                  Approved/Rejected At
-                </th>
+                <th>Order placed at Date</th>
+                <th>Order placed at Time</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Approved/Rejected At</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-800">

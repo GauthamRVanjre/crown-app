@@ -8,10 +8,10 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { userTypes } from "@/lib/types";
 import InvestmentsDetailCard from "./InvestmentsDetailCard";
+import UserQueryTracking from "./UserQueryTracking";
 
 export default function Component() {
   const { data: session } = useSession();
-  console.log("user id", session?.user.id);
 
   const getUserDetails = async () => {
     const res = await fetch(`/api/users/${session?.user.id}`);
@@ -35,6 +35,7 @@ export default function Component() {
         <div className="container space-y-4">
           <UserDetailsCard data={data} />
           <InvestmentsDetailCard userId={data?.id} />
+          <UserQueryTracking userId={data?.id} />
         </div>
       )}
     </div>

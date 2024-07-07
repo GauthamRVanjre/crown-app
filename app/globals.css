@@ -93,3 +93,16 @@
   height: 60px;
   animation: spin 2s linear infinite;
 }
+
+th {
+  padding: 5px 10px;
+  text-align: left;
+  font-size: small;
+  font-weight: bold;
+  color: rgb(38, 36, 36);
+}
+th:hover {
+  color: rgb(90, 87, 87);
+}
+
+/* px-4 py-2 text-left text-sm font-medium text-gray-500 dark:text-gray-400 */

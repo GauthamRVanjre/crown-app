@@ -28,6 +28,8 @@ model User {
 
   clientConsultingCalls consultingCalls[] @relation("ClientConsultingCalls")
   interviewerConsultingCalls consultingCalls[] @relation("InterviewerConsultingCalls")
+
+  queriesCreated QueryTracking[] @relation("queryTracking")
 }
 
 enum riskTakingCapacityTypes {
@@ -78,4 +80,26 @@ model consultingCalls {
 
   createdAt DateTime @default(now())
   updatedAt DateTime?
+}
+
+
+// query tracking 
+model QueryTracking {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  subject String
+  createdAt DateTime @default(now())
+
+  // client linking
+  createdBy       User   @relation("queryTracking", fields: [createdById], references: [id])
+  createdById  String  @db.ObjectId
+
+
+  queryStatus QueryStatus
+}
+
+enum QueryStatus {
+  Raised
+  InProcess
+  Resolved
+  Rejected
 }

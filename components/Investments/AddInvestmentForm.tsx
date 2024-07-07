@@ -63,7 +63,7 @@ const AddInvestmentForm = ({
         }),
       });
       if (response.status === 200) {
-        queryClient.invalidateQueries({ queryKey: ["investments", "users"] });
+        queryClient.invalidateQueries({ queryKey: ["investments"] });
         toast.success("transaction submitted successfully");
       } else {
         toast.error("something went wrong! try again");

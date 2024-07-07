@@ -6,7 +6,16 @@ export async function GET(
   try {
     const queries = await prisma.queryTracking.findMany({
       where: {
-        id: params.id,
+        createdById: params.id,
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
       },
     });
 

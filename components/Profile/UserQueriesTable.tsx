@@ -39,7 +39,7 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
             {data &&
               data?.map((query, index) => (
                 <tr key={query.id} className="bg-gray-50 dark:bg-gray-800">
-                  <td className="px-4 py-3 text-sm">{index}</td>
+                  <td className="px-4 py-3 text-sm">{index+1}</td>
                   <td className="px-4 py-3 text-sm">{query.subject}</td>
                   <td className="px-4 py-3 text-sm">{query.queryStatus}</td>
                   <td className="px-4 py-3 text-sm">

@@ -47,10 +47,7 @@ const ConsultingCallsTable = () => {
               </TableCell>
               <TableCell>{user.client?.name}</TableCell>
               <TableCell>
-                <a
-                  href="https://drive.google.com/file/d/1i-hQUrcd3iDvqwv1hwcvk58_0dL18vyA/view?usp=sharing"
-                  target="_blank"
-                >
+                <a href={user.docLink} target="_blank">
                   {user.client?.name} - {formatDate(user.createdAt)}
                 </a>
               </TableCell>

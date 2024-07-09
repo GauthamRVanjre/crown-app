@@ -28,8 +28,6 @@ const QueryTable = () => {
     }
   );
 
-  console.log(data);
-
   return (
     <Table>
       <TableCaption>A list of Queries</TableCaption>

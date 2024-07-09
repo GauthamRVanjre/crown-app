@@ -24,7 +24,7 @@ const QueryTable = () => {
     {
       queryKey: ["query"],
       queryFn: getQueries,
-      refetchOnReconnect: true,
+      refetchOnMount: true,
     }
   );
 

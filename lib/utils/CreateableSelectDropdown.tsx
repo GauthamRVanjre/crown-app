@@ -11,6 +11,8 @@ interface CreateableSelectDropdownProps {
   isLoading: boolean;
   value: Option | null | undefined;
   setValue: Dispatch<SetStateAction<Option | null | undefined>>;
+  defaultValue?: Option | undefined;
+  placeholder?: string;
 }
 
 const CreateableSelectDropdown: React.FC<CreateableSelectDropdownProps> = ({
@@ -18,6 +20,8 @@ const CreateableSelectDropdown: React.FC<CreateableSelectDropdownProps> = ({
   isLoading,
   value,
   setValue,
+  defaultValue,
+  placeholder,
 }) => {
   const colourStyles = {
     control: (styles: any) => ({
@@ -30,8 +34,8 @@ const CreateableSelectDropdown: React.FC<CreateableSelectDropdownProps> = ({
     ) => {
       return {
         ...styles,
-        backgroundColor: isSelected ? "#000" : isFocused ? "#333" : "#fff",
-        color: isSelected ? "#fff" : styles.color,
+        backgroundColor: isSelected ? "#000" : isFocused ? "#000" : "#fff",
+        color: isSelected ? "#fff" : "#333",
         cursor: isDisabled ? "not-allowed" : "default",
       };
     },
@@ -47,12 +51,14 @@ const CreateableSelectDropdown: React.FC<CreateableSelectDropdownProps> = ({
     <CreatableSelect
       styles={colourStyles}
       isDisabled={isLoading}
-      placeholder="Select Interviewer"
+      placeholder={placeholder}
       isClearable
       onChange={(newValue) => setValue(newValue)}
       value={value}
       options={options}
       required
+      // defaultInputValue={defaultValue}
+      defaultValue={defaultValue}
     />
   );
 };

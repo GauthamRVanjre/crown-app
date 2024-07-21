@@ -1,4 +1,5 @@
 import {
+  QueryStatus,
   TransactionStatus,
   investmentTypeEnum,
   riskTakingCapacityTypes,
@@ -58,5 +59,5 @@ export type queryTrackingType = {
     name: string;
     email: string;
   };
-  queryStatus: string;
+  queryStatus: QueryStatus;
 };

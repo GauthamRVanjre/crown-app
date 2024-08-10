@@ -29,7 +29,7 @@ const QueryTable = () => {
     {
       queryKey: ["query"],
       queryFn: getQueries,
-      refetchOnMount: true,
+      refetchInterval: 5000,
     }
   );
 

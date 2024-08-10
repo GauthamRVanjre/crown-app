@@ -2,6 +2,7 @@ import React from "react";
 import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import { useQuery } from "@tanstack/react-query";
 import { queryTrackingType } from "@/lib/types";
+import { Slider } from "../ui/slider";
 
 interface UserQueriesTableProps {
   userId: string | undefined;
@@ -31,6 +32,7 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
               <th>Sl.No</th>
               <th>Subject</th>
               <th>Status</th>
+              <th>Review</th>
               <th>Created At</th>
               <th>Created Time</th>
             </tr>
@@ -39,9 +41,12 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
             {data &&
               data?.map((query, index) => (
                 <tr key={query.id} className="bg-gray-50 dark:bg-gray-800">
-                  <td className="px-4 py-3 text-sm">{index+1}</td>
+                  <td className="px-4 py-3 text-sm">{index + 1}</td>
                   <td className="px-4 py-3 text-sm">{query.subject}</td>
                   <td className="px-4 py-3 text-sm">{query.queryStatus}</td>
+                  <td>
+                    <Slider defaultValue={[3]} max={5} step={1} min={1} />
+                  </td>
                   <td className="px-4 py-3 text-sm">
                     {formatDate(query.createdAt)}
                   </td>

@@ -24,9 +24,11 @@ import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { contactHelpValidation } from "@/lib/validations/ContactHelpValidation";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ContactHelp() {
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof contactHelpValidation>>({
     resolver: zodResolver(contactHelpValidation),
@@ -49,6 +51,7 @@ export default function ContactHelp() {
       });
 
       if (res.status === 201) {
+        queryClient.invalidateQueries({ queryKey: ["query"] });
         toast.success("Query Raised successfully");
       } else {
         toast.error("Error sending message, please try again");

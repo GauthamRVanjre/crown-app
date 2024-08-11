@@ -26,7 +26,9 @@ const QueryTable = () => {
     setIsLoading(true);
     try {
       const res = await fetch("/api/QueryTracking");
+      console.log("res:", res);
       const response = await res.json();
+      console.log("response:", response);
       setIsSuccess(true);
       setData(response);
     } catch (error) {

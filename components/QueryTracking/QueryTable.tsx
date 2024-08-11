@@ -25,10 +25,9 @@ const QueryTable = () => {
   const getQueries = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/QueryTracking");
-      console.log("res:", res);
+      const res = await fetch("/api/QueryTracking", { cache: "no-cache" });
       const response = await res.json();
-      console.log("response:", response);
+      console.log("response in fetching data:", response);
       setIsSuccess(true);
       setData(response);
     } catch (error) {

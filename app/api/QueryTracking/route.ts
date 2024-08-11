@@ -1,6 +1,9 @@
 import { prisma } from "../../../prisma/prisma";
 
 export async function GET(req: Request) {
+  const url = new URL(req.url).searchParams;
+  const time = url.get("time");
+  console.log(time);
   try {
     const queries = await prisma.queryTracking.findMany({
       include: {

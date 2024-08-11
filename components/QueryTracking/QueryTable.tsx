@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -17,21 +17,24 @@ import { Button } from "../ui/button";
 import toast from "react-hot-toast";
 
 const QueryTable = () => {
+  const [data, setData] = useState<queryTrackingType[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const queryClient = useQueryClient();
 
   const getQueries = async () => {
-    const res = await fetch("/api/QueryTracking");
-    const data = await res.json();
-    return data;
-  };
-
-  const { data, isLoading, isSuccess, refetch } = useQuery<queryTrackingType[]>(
-    {
-      queryKey: ["query"],
-      queryFn: getQueries,
-      refetchInterval: 5000,
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/QueryTracking");
+      const response = await res.json();
+      setIsSuccess(true);
+      setData(response);
+    } catch (error) {
+      setIsSuccess(false);
+    } finally {
+      setIsLoading(false);
     }
-  );
+  };
 
   const [statusValue, setStatusValue] = useState<
     { label: string; value: string } | null | undefined
@@ -54,6 +57,7 @@ const QueryTable = () => {
       if (response.status === 201) {
         queryClient.invalidateQueries({ queryKey: ["query"] });
         toast.success("Query updated successfully");
+        getQueries();
       } else {
         toast.error("something went wrong! try again");
       }
@@ -62,6 +66,10 @@ const QueryTable = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    getQueries();
+  }, []);
 
   return (
     <Table>

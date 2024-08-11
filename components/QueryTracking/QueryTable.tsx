@@ -36,6 +36,7 @@ const QueryTable = () => {
     }
   };
 
+
   const [statusValue, setStatusValue] = useState<
     { label: string; value: string } | null | undefined
   >();

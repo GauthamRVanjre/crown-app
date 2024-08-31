@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/popover";
 import { Input } from "../ui/input";
 import toast from "react-hot-toast";
+import Pagination, { PageState } from "@/lib/utils/Pagination";
 
 const InvestmentsTable = () => {
   const [approvalNote, setApprovalNote] = useState("");
@@ -27,10 +28,22 @@ const InvestmentsTable = () => {
   const [Loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
+  const [pageState, setPageState] = useState<PageState>({
+    count: 0,
+    skip: 0,
+    take: 5,
+  });
+
   const getInvestments = async () => {
-    const res = await fetch("/api/investments?skip=0&take=10");
+    const res = await fetch(
+      `/api/investments?skip=${pageState.skip}&take=${pageState.take}`
+    );
     const data = await res.json();
-    // console.log("data", data);
+    setPageState({
+      count: data.count,
+      skip: pageState.skip,
+      take: pageState.take,
+    });
     return data.data;
   };
 
@@ -40,7 +53,7 @@ const InvestmentsTable = () => {
     isSuccess,
     refetch,
   } = useQuery<investmentType[]>({
-    queryKey: ["investments"],
+    queryKey: ["investments", pageState.skip],
     queryFn: getInvestments,
     refetchOnReconnect: true,
   });
@@ -115,7 +128,8 @@ const InvestmentsTable = () => {
       </TableHeader>
       <TableBody>
         {isLoading && <div className="text-center pt-4">Loading...</div>}
-        {isSuccess &&
+        {!isLoading &&
+          isSuccess &&
           investmentData?.map((investment) => (
             <TableRow key={investment.id}>
               <TableCell className="font-bold">
@@ -190,6 +204,7 @@ const InvestmentsTable = () => {
             </TableRow>
           ))}
       </TableBody>
+      <Pagination pageState={pageState} onPageChange={setPageState} />
     </Table>
   );
 };

@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import { useQuery } from "@tanstack/react-query";
 import { queryTrackingType } from "@/lib/types";
 import { Slider } from "../ui/slider";
+import Pagination, { PageState } from "@/lib/utils/Pagination";
 
 interface UserQueriesTableProps {
   userId: string | undefined;
 }
 
 const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
+  const [pageState, setPageState] = useState<PageState>({
+    count: 0,
+    skip: 0,
+    take: 5,
+  });
   const getQueries = async () => {
-    const res = await fetch(`/api/QueryTracking/${userId}`);
+    const res = await fetch(
+      `/api/QueryTracking/${userId}?skip=${pageState.skip}&take=${pageState.take}`
+    );
     const data = await res.json();
-    return data;
+    setPageState({
+      skip: pageState.skip,
+      take: pageState.take,
+      count: data.count,
+    });
+    return data.queries;
   };
 
   const { data, isLoading, isSuccess, refetch } = useQuery<queryTrackingType[]>(
     {
-      queryKey: ["query"],
+      queryKey: ["query", pageState.skip],
       queryFn: getQueries,
       refetchOnReconnect: true,
     }
@@ -38,7 +51,10 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-            {data &&
+            {isLoading && <div className="text-center pt-4">Loading...</div>}
+            {!isLoading &&
+              isSuccess &&
+              data &&
               data?.map((query, index) => (
                 <tr key={query.id} className="bg-gray-50 dark:bg-gray-800">
                   <td className="px-4 py-3 text-sm">{index + 1}</td>
@@ -56,6 +72,7 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
                 </tr>
               ))}
           </tbody>
+          <Pagination pageState={pageState} onPageChange={setPageState} />
         </table>
       </div>
     </>

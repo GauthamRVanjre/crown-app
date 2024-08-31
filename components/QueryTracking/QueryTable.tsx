@@ -9,12 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { queryTrackingType } from "../../lib/types";
 import { formatDate } from "../../lib/utils/formatDate";
 import CreateableSelectDropdown from "@/lib/utils/CreateableSelectDropdown";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const QueryTable = () => {
   const [data, setData] = useState<queryTrackingType[]>([]);
@@ -36,7 +44,6 @@ const QueryTable = () => {
       setIsLoading(false);
     }
   };
-
 
   const [statusValue, setStatusValue] = useState<
     { label: string; value: string } | null | undefined
@@ -90,7 +97,26 @@ const QueryTable = () => {
           data?.map((user, index) => (
             <TableRow key={user.id}>
               <TableCell className="font-bold">
-                {user.createdBy?.name}
+                <Sheet>
+                  <SheetTrigger>{user.createdBy?.name}</SheetTrigger>
+                  <SheetContent>
+                    <SheetHeader>
+                      <SheetTitle>Query Details</SheetTitle>
+                      <SheetDescription>
+                        <div className=" h-48 flex flex-col mt-4">
+                          <div className="mb-4">
+                            <h3 className="header-text">Subject: </h3>
+                            <p>{user.subject}</p>
+                          </div>
+                          <div>
+                            <h3 className="header-text">Description:</h3>
+                            <p>{user.queryStatus}</p>
+                          </div>
+                        </div>
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
               </TableCell>
               <TableCell>{user.subject}</TableCell>
               <TableCell>

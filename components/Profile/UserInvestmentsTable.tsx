@@ -18,7 +18,7 @@ const UserInvestmentsTable: React.FC<UserInvestmentsTableProps> = ({
   const [pageState, setPageState] = useState<PageState>({
     count: 0,
     skip: 0,
-    take: 5,
+    take: 10,
   });
   const getUserInvestments = async () => {
     const res = await fetch(

@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import prisma from "@/prisma/prisma";
+import { resend } from "@/lib/utils/resend";
 import { riskTakingCapacityTypes } from "@prisma/client";
+import { NewUserRegistrationEmailTemplate } from "@/lib/EmailTemplates/NewUserRegistrationEmailTemplate";
 
 export async function GET(req: Request) {
   try {
@@ -17,15 +19,32 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const { name, email, password, isAdmin } = await req.json();
+  const { name, email, password, isAdmin, customerId } = await req.json();
   try {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !customerId) {
       return new Response(
         JSON.stringify({
           message: "body cannot be empty",
         }),
         {
           status: 422,
+        }
+      );
+    }
+
+    const customerIdExists = await prisma.user.findFirst({
+      where: {
+        customerId: customerId,
+      },
+    });
+
+    if (customerIdExists) {
+      return new Response(
+        JSON.stringify({
+          message: "CustomerId already exists",
+        }),
+        {
+          status: 405,
         }
       );
     }
@@ -48,13 +67,24 @@ export async function POST(req: Request) {
       );
     }
 
+    //  saving user to Database
     const user = await prisma.user.create({
       data: {
         name: name,
         email: email,
         password: hashedPassword,
         isAdmin: isAdmin,
+        customerId: customerId,
       },
+    });
+
+    // send an email notification to user with password and customerId
+    const data = await resend.emails.send({
+      from: `Acme <onboarding@resend.dev>`,
+      to: [`${email}`],
+      subject: "Welcome to Crown Society: Your login Credentials",
+      react: NewUserRegistrationEmailTemplate({ name, email, customerId }),
+      text: "",
     });
 
     return new Response(JSON.stringify(user), { status: 200 });

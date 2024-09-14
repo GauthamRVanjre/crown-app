@@ -13,7 +13,7 @@ const UserQueriesTable: React.FC<UserQueriesTableProps> = ({ userId }) => {
   const [pageState, setPageState] = useState<PageState>({
     count: 0,
     skip: 0,
-    take: 5,
+    take: 10,
   });
   const getQueries = async () => {
     const res = await fetch(

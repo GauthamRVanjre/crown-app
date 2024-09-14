@@ -33,7 +33,7 @@ const QueryTable = () => {
   const [pageState, setPageState] = useState<PageState>({
     count: 0,
     skip: 0,
-    take: 5,
+    take: 10,
   });
   const queryClient = useQueryClient();
 

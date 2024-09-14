@@ -1,5 +1,5 @@
 import { resend } from "@/lib/utils/resend";
-import { EmailTemplate } from "@/lib/utils/email-template";
+import { UserQueryEmailTemplate } from "@/lib/EmailTemplates/UserQueryEmailTemplate";
 import prisma from "@/prisma/prisma";
 
 export async function POST(req: Request) {
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       from: `Acme <onboarding@resend.dev>`,
       to: ["thecrownsoceity@gmail.com"],
       subject,
-      react: EmailTemplate({ name, email, message }),
+      react: UserQueryEmailTemplate({ name, email, message }),
       text: "",
     });
 

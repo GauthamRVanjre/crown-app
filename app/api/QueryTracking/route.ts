@@ -10,6 +10,9 @@ export async function GET(req: Request) {
     const queries = await prisma.queryTracking.findMany({
       skip,
       take,
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         createdBy: {
           select: {

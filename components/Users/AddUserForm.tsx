@@ -1,5 +1,4 @@
 "use client";
-import { userTypes } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -118,13 +117,6 @@ const AddUserForm = () => {
                   </FormLabel>
                   <FormControl>
                     <PasswordField isLoading={isLoading} field={field} />
-                    {/* <Input
-                      disabled={isLoading}
-                      className="glass rounded-2xl"
-                      type="text"
-                      placeholder="Enter Password"
-                      {...field}
-                    /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -152,7 +144,7 @@ const AddUserForm = () => {
               )}
             />
 
-            <Button className="mt-2" disabled={isLoading} type="submit">
+            <Button className="mt-4 mb-2" disabled={isLoading} type="submit">
               Submit
             </Button>
           </ScrollArea>

@@ -36,9 +36,30 @@ const adminUser = async () => {
     console.log(error);
   }
 };
+
+const descriptionField = async () => {
+  try {
+    const user = await prisma.queryTracking.updateMany({
+      data: {
+        Description: "Your new description here", // Set the desired description
+      },
+    });
+
+    console.log("Updated description for records: " + user.count);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// 1. seed file run in development mode
+// 2. fetch required data
+// 3.find a way to run seed file in production mode
+// 4. merge inot production
+
 async function main() {
-  await seedUser();
-  await adminUser();
+  // await seedUser();
+  // await adminUser();
+  await descriptionField();
 }
 
 main()

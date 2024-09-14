@@ -19,6 +19,7 @@ model User {
   email    String   @unique
   isAdmin  Boolean
   password String
+  customerId String?
 
   brokerName String?
   phoneNumber String?

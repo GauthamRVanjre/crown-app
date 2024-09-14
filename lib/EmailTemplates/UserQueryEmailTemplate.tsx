@@ -1,16 +1,14 @@
 import * as React from "react";
 
-interface EmailTemplateProps {
+interface UserQueryEmailTemplate {
   name: string;
   email: string;
   message: string;
 }
 
-export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
-  name,
-  email,
-  message,
-}) => (
+export const UserQueryEmailTemplate: React.FC<
+  Readonly<UserQueryEmailTemplate>
+> = ({ name, email, message }) => (
   <div>
     <div>
       You got a new message from {name} with email address as {email}

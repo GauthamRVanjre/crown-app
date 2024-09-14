@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     // send an email
     const data = await resend.emails.send({
       from: `Acme <onboarding@resend.dev>`,
-      to: ["vanjregautham@gmail.com"],
+      to: ["thecrownsoceity@gmail.com"],
       subject,
       react: EmailTemplate({ name, email, message }),
       text: "",

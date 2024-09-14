@@ -127,7 +127,7 @@ const QueryTable = () => {
                             </div>
                             <div>
                               <h3 className="header-text">Description:</h3>
-                              <p>{user.queryStatus}</p>
+                              <p>{user.Description}</p>
                             </div>
                           </div>
                         </SheetDescription>

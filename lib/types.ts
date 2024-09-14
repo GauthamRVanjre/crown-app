@@ -59,5 +59,6 @@ export type queryTrackingType = {
     name: string;
     email: string;
   };
+  Description: string;
   queryStatus: QueryStatus;
 };

@@ -23,6 +23,7 @@ import { AddUserFormValidation } from "@/lib/validations/AddUserFormValidation";
 import { Switch } from "../ui/switch";
 import { useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogClose } from "../ui/dialog";
+import PasswordField from "../PasswordField";
 
 const AddUserForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -116,13 +117,14 @@ const AddUserForm = () => {
                     Enter Password
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <PasswordField isLoading={isLoading} field={field} />
+                    {/* <Input
                       disabled={isLoading}
                       className="glass rounded-2xl"
                       type="text"
                       placeholder="Enter Password"
                       {...field}
-                    />
+                    /> */}
                   </FormControl>
                   <FormMessage />
                 </FormItem>

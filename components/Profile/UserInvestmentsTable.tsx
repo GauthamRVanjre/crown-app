@@ -1,19 +1,44 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import AddInvestmentsModal from "../Investments/AddInvestmentsModal";
 import { investmentType } from "@/lib/types";
 import { formatDate, formatTime } from "@/lib/utils/formatDate";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
+import Pagination, { PageState } from "@/lib/utils/Pagination";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserInvestmentsTableProps {
   userId: string | undefined;
-  data: investmentType[] | undefined;
 }
 
 const UserInvestmentsTable: React.FC<UserInvestmentsTableProps> = ({
-  data,
   userId,
 }) => {
+  const [pageState, setPageState] = useState<PageState>({
+    count: 0,
+    skip: 0,
+    take: 5,
+  });
+  const getUserInvestments = async () => {
+    const res = await fetch(
+      `/api/investments/${userId}?skip=${pageState.skip}&take=${pageState.take}`
+    );
+    const data = await res.json();
+    setPageState({
+      skip: pageState.skip,
+      take: pageState.take,
+      count: data.count,
+    });
+    return data.userInvestments;
+  };
+
+  const { data, isLoading, isSuccess, refetch } = useQuery<investmentType[]>({
+    queryKey: ["investments", pageState.skip],
+    queryFn: getUserInvestments,
+    refetchOnReconnect: true,
+  });
+
   return (
     <>
       <div className="flex justify-end">
@@ -32,7 +57,11 @@ const UserInvestmentsTable: React.FC<UserInvestmentsTableProps> = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
-            {data &&
+            {isLoading && <div className="text-center pt-4">Loading...</div>}
+
+            {!isLoading &&
+              isSuccess &&
+              data &&
               data?.map((investment) => (
                 <tr key={investment.id} className="bg-gray-50 dark:bg-gray-800">
                   <td className="px-4 py-3 text-sm">
@@ -73,6 +102,7 @@ const UserInvestmentsTable: React.FC<UserInvestmentsTableProps> = ({
                   )}
                 </tr>
               ))}
+            <Pagination pageState={pageState} onPageChange={setPageState} />
           </tbody>
         </table>
       </div>

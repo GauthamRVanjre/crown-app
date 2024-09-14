@@ -35,7 +35,7 @@ const CreateableSelectDropdown: React.FC<CreateableSelectDropdownProps> = ({
       return {
         ...styles,
         backgroundColor: isSelected ? "#000" : isFocused ? "#000" : "#fff",
-        color: isSelected ? "#fff" : "#333",
+        color: isSelected ? "#fff" : isFocused ? "#fff" : "#000",
         cursor: isDisabled ? "not-allowed" : "default",
       };
     },

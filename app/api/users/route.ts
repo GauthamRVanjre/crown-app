@@ -79,15 +79,28 @@ export async function POST(req: Request) {
     });
 
     // send an email notification to user with password and customerId
-    const data = await resend.emails.send({
-      from: `Acme <onboarding@resend.dev>`,
-      to: [`${email}`],
+    const emailData = await resend.emails.send({
+      from: `thecrownsoceity@gmail.com`,
+      to: [email],
       subject: "Welcome to Crown Society: Your login Credentials",
       react: NewUserRegistrationEmailTemplate({ name, email, customerId }),
       text: "",
     });
 
-    return new Response(JSON.stringify(user), { status: 200 });
+    console.log(emailData);
+    if (emailData.error) {
+      await prisma.user.delete({
+        where: {
+          id: user.id,
+        },
+      });
+      return new Response(
+        JSON.stringify({ error: `Could not send user email: ${emailData}` }),
+        { status: 503 }
+      );
+    }
+
+    return new Response(JSON.stringify(emailData), { status: 201 });
   } catch (error) {
     return new Response(
       JSON.stringify({
@@ -119,8 +132,6 @@ export async function PUT(req: Request) {
     );
   }
 
-  console.log("phone number value after validation: ", phoneNumber);
-
   const userExists = await prisma.user.findUnique({
     where: {
       id: userId,
@@ -135,8 +146,6 @@ export async function PUT(req: Request) {
       status: 404,
     });
   }
-
-  console.log("phone number just before DB transaction: ", phoneNumber);
   try {
     const updatedUser = await prisma.user.update({
       where: {
@@ -154,8 +163,11 @@ export async function PUT(req: Request) {
     return new Response(JSON.stringify(updatedUser), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new Response(JSON.stringify({ message: "catch block" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "User details could not edited" }),
+      {
+        status: 500,
+      }
+    );
   }
 }

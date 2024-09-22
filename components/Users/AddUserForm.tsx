@@ -34,6 +34,7 @@ const AddUserForm = () => {
       email: "",
       password: "",
       isAdmin: false,
+      customerId: "",
     },
   });
 
@@ -49,9 +50,11 @@ const AddUserForm = () => {
         method: "POST",
         body: JSON.stringify(values),
       });
-      if (response.status === 200) {
+      if (response.status === 201) {
         queryClient.invalidateQueries({ queryKey: ["users"] });
         toast.success("user created successfully");
+      } else if (response.status === 503) {
+        toast.error("Email could not be sent to user");
       } else {
         toast.error("something went wrong! try again");
       }

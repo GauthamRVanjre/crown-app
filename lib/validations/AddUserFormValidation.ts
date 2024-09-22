@@ -5,5 +5,5 @@ export const AddUserFormValidation = z.object({
   email: z.string().nonempty("email must not be empty").email("invalid email"),
   password: z.string().nonempty("password must not be empty"),
   isAdmin: z.boolean(),
-  customerId: z.string(),
+  customerId: z.string().optional(),
 });

@@ -98,15 +98,6 @@ const LoginForm = () => {
           <Button type="submit" disabled={isLoading}>
             {isLoading ? "Logging in..." : "Login"}
           </Button>
-          <Button
-            variant="link"
-            className="text-sm text-blue-600"
-            onClick={() => {
-              /* Handle forgot password */
-            }}
-          >
-            Forgot Password?
-          </Button>
         </div>
       </form>
     </Form>

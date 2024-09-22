@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { useQuery } from "@tanstack/react-query";
 import { userTypes } from "@/lib/types";
+import DeleteUserModal from "./DeleteUserModal";
 
 const UsersTable = () => {
   const getUsers = async () => {
@@ -32,6 +33,7 @@ const UsersTable = () => {
           <TableHead className="w-[100px]">Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Admin</TableHead>
+          {/* <TableHead>Actions</TableHead> */}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -42,6 +44,15 @@ const UsersTable = () => {
               <TableCell className="font-bold">{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.isAdmin ? "YES" : "NO"}</TableCell>
+              {/* <TableCell
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <DeleteUserModal userId={user.id} />
+              </TableCell> */}
             </TableRow>
           ))}
       </TableBody>

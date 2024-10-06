@@ -29,6 +29,10 @@ const authOptions: NextAuthOptions = {
             return null;
           }
 
+          if (askedUser.isActive === false) {
+            return null;
+          }
+
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             askedUser?.password!

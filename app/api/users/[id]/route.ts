@@ -54,6 +54,53 @@ export async function GET(
   }
 }
 
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const { id } = params;
+  let { isAdmin, phoneNumber, email } = await req.json();
+  console.log(isAdmin, phoneNumber, email, id);
+
+  const userExists = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (!userExists) {
+    return new Response(JSON.stringify({ message: "User does not exist" }), {
+      status: 404,
+    });
+  }
+  try {
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+
+      data: {
+        isAdmin,
+        phoneNumber,
+        email,
+      },
+    });
+
+    return new Response(JSON.stringify(updatedUser), { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new Response(
+      JSON.stringify({ message: "User details could not edited" }),
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
@@ -77,9 +124,12 @@ export async function DELETE(
   }
 
   try {
-    const deletedUser = await prisma.user.delete({
+    const deletedUser = await prisma.user.update({
       where: {
         id: id,
+      },
+      data: {
+        isActive: false,
       },
     });
 

@@ -8,20 +8,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { userTypes } from "@/lib/types";
 import DeleteUserModal from "./DeleteUserModal";
+import EditUserDetailsModal from "../Profile/EditUserDetailsModal";
 
 const UsersTable = () => {
   const getUsers = async () => {
+    console.log("users fetch");
     const res = await fetch("/api/users");
     const data = await res.json();
     return data;
   };
 
-  const { data, isLoading, isSuccess, refetch } = useQuery<userTypes[]>({
+  const { data, isLoading, isSuccess } = useQuery<userTypes[]>({
     queryKey: ["users"],
     queryFn: getUsers,
+    // staleTime: 0,
     refetchOnReconnect: true,
   });
 
@@ -33,7 +36,8 @@ const UsersTable = () => {
           <TableHead className="w-[100px]">Name</TableHead>
           <TableHead>Email</TableHead>
           <TableHead>Admin</TableHead>
-          {/* <TableHead>Actions</TableHead> */}
+          <TableHead>Phone Number</TableHead>
+          <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -44,15 +48,11 @@ const UsersTable = () => {
               <TableCell className="font-bold">{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.isAdmin ? "YES" : "NO"}</TableCell>
-              {/* <TableCell
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-start",
-                }}
-              >
+              <TableCell>{user.phoneNumber}</TableCell>
+              <TableCell className="flex flex-row">
+                <EditUserDetailsModal data={user} isAdmin={true} />
                 <DeleteUserModal userId={user.id} />
-              </TableCell> */}
+              </TableCell>
             </TableRow>
           ))}
       </TableBody>

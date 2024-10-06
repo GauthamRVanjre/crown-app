@@ -119,6 +119,19 @@ export async function PUT(req: Request) {
   let { investmentGoal, phoneNumber, userId, brokerName, riskTakingCapacity } =
     await req.json();
 
+  console.log("user id: " + userId);
+
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        message: "User not found",
+      }),
+      {
+        status: 404,
+      }
+    );
+  }
+
   riskTakingCapacity = riskTakingCapacity as unknown as riskTakingCapacityTypes;
 
   if (investmentGoal && typeof investmentGoal !== "number") {

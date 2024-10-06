@@ -75,6 +75,8 @@ const EditUserDetailsForm = ({
       } else {
         toast.error("something went wrong! try again");
       }
+
+      setIsOpen(false);
     } catch (error) {
       console.log("something went wrong");
     } finally {
@@ -196,7 +198,6 @@ const EditUserDetailsForm = ({
           <Button
             className={`${isLoading && "loader"} mt-2`}
             disabled={isLoading}
-            onClick={() => setIsOpen(false)}
             type="submit"
           >
             Submit

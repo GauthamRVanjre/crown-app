@@ -3,40 +3,6 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const seedUser = async () => {
-  try {
-    const user = await prisma.user.create({
-      data: {
-        name: "User",
-        email: "user@gmail.com",
-        password: "password",
-        isAdmin: false,
-      },
-    });
-
-    console.log("user created with name", user.name);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const adminUser = async () => {
-  try {
-    const user = await prisma.user.create({
-      data: {
-        name: "admin",
-        email: "admin@gmail.com",
-        password: "password",
-        isAdmin: true,
-      },
-    });
-
-    console.log("admin user created with name", user.name);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const descriptionField = async () => {
   try {
     const user = await prisma.queryTracking.updateMany({
@@ -51,6 +17,20 @@ const descriptionField = async () => {
   }
 };
 
+const isActiveFieldForUsers = async () => {
+  try {
+    const user = await prisma.user.updateMany({
+      data: {
+        isActive: true,
+      },
+    });
+
+    console.log("Updated active state for records: " + user.count);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // 1. seed file run in development mode
 // 2. fetch required data
 // 3.find a way to run seed file in production mode
@@ -59,7 +39,7 @@ const descriptionField = async () => {
 async function main() {
   // await seedUser();
   // await adminUser();
-  await descriptionField();
+  await isActiveFieldForUsers();
 }
 
 main()

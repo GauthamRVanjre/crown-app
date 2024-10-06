@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,7 @@ interface DeleteUserModalProps {
 }
 
 const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ userId }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const onSubmit = async () => {
     try {
@@ -25,15 +26,17 @@ const DeleteUserModal: React.FC<DeleteUserModalProps> = ({ userId }) => {
       });
       if (deleteUser.status === 200) {
         queryClient.invalidateQueries({ queryKey: ["users"] });
-        toast.success("user created successfully");
+        toast.success("user deactivated successfully");
       }
     } catch (error) {
       toast.error("Something went wrong");
+    } finally {
+      setIsOpen(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger>Delete User</DialogTrigger>
       <DialogContent>
         <DialogHeader>

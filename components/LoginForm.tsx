@@ -18,12 +18,10 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
 import PasswordField from "./PasswordField";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof LoginFormValidation>>({
@@ -40,9 +38,8 @@ const LoginForm = () => {
       const result = await signIn("credentials", {
         email: values.email,
         password: values.password,
-        isActive: true,
         redirect: false,
-        callbackUrl: "/",
+        callbackUrl: "/Profile",
       });
       if (result?.error) {
         toast.error("Invalid Credentials");
@@ -58,8 +55,6 @@ const LoginForm = () => {
     }
   };
 
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onFinish)} className="space-y-6">
@@ -72,7 +67,7 @@ const LoginForm = () => {
               <FormControl>
                 <Input
                   disabled={isLoading}
-                  className="border-none"
+                  className="border-none rounded-2xl"
                   type="email"
                   placeholder="Enter your Email"
                   {...field}

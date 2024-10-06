@@ -13,7 +13,7 @@ import EditUserDetailsAdminPersona from "./EditUserDetailsFormAdminPersona";
 
 interface EditUserDetailsModalProps {
   data: userTypes | undefined;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 }
 
 const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({

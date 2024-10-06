@@ -40,6 +40,7 @@ const LoginForm = () => {
       const result = await signIn("credentials", {
         email: values.email,
         password: values.password,
+        isActive: true,
         redirect: false,
         callbackUrl: "/",
       });
